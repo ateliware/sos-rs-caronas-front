@@ -16,6 +16,7 @@ import {
   NotFoundPage,
   RecoverPasswordPage,
   ResetPasswordPage,
+  SignupPage,
   UserPage,
 } from '@pages';
 import { ToastContainer } from 'react-toastify';
@@ -59,6 +60,7 @@ function App() {
             <Routes>
               <Route path="">
                 <Route path="" element={<LoginPage />} />
+                <Route path="signup" element={<SignupPage />} />
                 <Route path="login" element={<LoginPage />} />
                 <Route path="recover_password">
                   <Route path="" element={<RecoverPasswordPage />} />

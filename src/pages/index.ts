@@ -1,6 +1,7 @@
 export { DefaultPage } from './DefaultPage';
 export { EmailSentPage } from './EmailSentPage';
 export { LoginPage } from './LoginPage';
+export { SignupPage } from './SignupPage';
 export { MePage } from './MePage';
 export { RecoverPasswordPage } from './RecoverPasswordPage';
 export { ResetPasswordPage } from './ResetPasswordPage';
