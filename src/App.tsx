@@ -73,8 +73,8 @@ function App() {
 
               <Route path="" element={<Authenticated />}>
                 <Route path="/me" element={<MePage />} />
+                <Route path="home" element={<HomePage />} />
                 <Route path="/users" element={<UserPage />} />
-                <Route path="/home" element={<HomePage />} />
                 <Route path="dashboard" element={<>Dashboard Content</>} />
                 <Route path="protected" element={<>Example protected page</>} />
                 <Route
