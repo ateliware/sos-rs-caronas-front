@@ -20,6 +20,7 @@ interface DefaultValue {
   name: string;
   active: boolean;
   email: string;
+  cpf: string;
   password?: string;
 }
 
@@ -37,6 +38,7 @@ const fetchDefaultValues = async ({
       name: '',
       email: '',
       password: '',
+      cpf: '',
     };
   }
 
@@ -51,7 +53,8 @@ const fetchDefaultValues = async ({
     id: fetchedUser.id || null,
     active: fetchedUser.active,
     name: fetchedUser.name,
-    email: fetchedUser.email,
+    email: fetchedUser.email || '',
+    cpf: fetchedUser.cpf,
   };
 };
 

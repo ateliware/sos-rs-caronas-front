@@ -17,8 +17,8 @@ export type TAuthContext = {
   setUser: (user: User | null) => void;
   loading: boolean;
   isLoadingRequest?: boolean;
-  login: (email: string, password: string) => Promise<void | ApiResponse>;
-  recover: (email: string) => Promise<void | ApiResponse>;
+  login: (cpf: string, password: string) => Promise<void | ApiResponse>;
+  recover: (cpf: string) => Promise<void | ApiResponse>;
   logout: () => void;
 };
 

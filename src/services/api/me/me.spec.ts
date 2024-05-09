@@ -15,6 +15,7 @@ describe('api test', () => {
       name: 'user 3',
       email: 'test@test.com',
       active: true,
+      cpf: '12345678900',
     };
 
     api.patch = jest

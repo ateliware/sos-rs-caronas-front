@@ -5,7 +5,8 @@ import { AccessGroup } from './AccessGroup';
 export interface User {
   id?: string | null;
   name: string;
-  email: string;
+  cpf: string;
+  email?: string;
   admin?: boolean;
   active: boolean;
   imageUrl?: string;

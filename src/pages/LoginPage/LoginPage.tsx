@@ -5,10 +5,9 @@ import { useNavigate } from 'react-router-dom';
 import { Button, Input, PasswordInput } from '@components';
 import { useAuthContext } from '@contexts/AuthProvider';
 import { handleErrorForm } from '@services/api';
-import { formEmailPattern } from '@validations/email';
+import { formCpfPattern } from '@validations/cpf';
 
-import loginImage from '@assets/login.svg';
-import logo from '@assets/blueprint-logo.svg';
+import logo from '@assets/logo.svg';
 
 export default function LoginPage() {
   const {
@@ -25,42 +24,55 @@ export default function LoginPage() {
     return;
   }, [user, navigate]);
 
-  const onSubmit = ((data: { email: string; password: string }) => {
-    login(data.email.toLowerCase(), data.password).catch(
-      handleErrorForm(setError)
-    );
+  const onSubmit = ((data: { cpf: string; password: string }) => {
+    login(data.cpf, data.password).catch(handleErrorForm(setError));
   }) as SubmitHandler<FieldValues>;
 
   return (
-    <div className="bg-neutral-95 row">
-      <div className="col-sm-5">
-        <div className="d-flex justify-center" style={{ height: '100vh' }}>
-          <div className="d-flex justify-center background-login-page w-75">
+    <div className="bg-neutral-95 row justify-center">
+      <div className="col-12 col-md-4">
+        <div className="d-flex justify-center">
+          <div className="d-flex justify-center background-login-page">
             <form
               autoComplete="off"
               className="form-max-height w-100"
               onSubmit={handleSubmit(onSubmit)}
             >
-              <img className="mb-s-750" src={logo} alt="logo" width="100%" />
+              <img src={logo} alt="logo" width="100%" />
+
+              <div className="mb-s-350">
+                <p className="font-weight-bold line-height-small text-primary">
+                  Informe o seu CPF, senha e clique em Entrar
+                </p>
+              </div>
+
               <Input
                 className="mb-s-200"
-                form={register('email', {
+                form={register('cpf', {
                   required: 'Obrigatório',
-                  ...formEmailPattern,
+                  ...formCpfPattern,
                 })}
-                label="E-mail"
-                placeholder="exemplo@exemplo.com"
-                error={!!errors.email}
-                caption={errors.email?.message as string}
+                placeholder="Digite o seu CPF"
+                error={!!errors.cpf}
+                caption={errors.cpf?.message as string}
               />
+
               <PasswordInput
                 className="text-primary"
                 form={register('password', { required: 'Obrigatório' })}
-                label="Senha"
                 placeholder="Insira sua senha"
                 error={!!errors.password}
                 caption={errors.password?.message as string}
               />
+
+              <div className="mt-s-200 d-flex justify-end">
+                <a
+                  href="/recover_password"
+                  className="font-s-150 font-weight-regular line-height-medium text-primary text-decoration-underline"
+                >
+                  Esqueci minha senha
+                </a>
+              </div>
 
               <Button
                 type="submit"
@@ -70,21 +82,21 @@ export default function LoginPage() {
               >
                 Entrar
               </Button>
-              <div className="d-flex justify-end">
+
+              <div className="mt-s-400 d-flex col justify-center flex-direction-column">
+                <p className="font-weight-bold line-height-small text-primary">
+                  Não possui uma conta?
+                </p>
+
                 <a
-                  href="/recover_password"
-                  className="font-s-150 font-weight-regular line-height-medium text-primary text-decoration-underline"
+                  className="mt-s-200 font-s-150 font-weight-bold line-height-medium text-primary"
+                  href="/register"
                 >
-                  Recuperar senha
+                  Cadastrar-se
                 </a>
               </div>
             </form>
           </div>
-        </div>
-      </div>
-      <div className="col-sm-8">
-        <div className="d-flex justify-center align-items-center h-100 w-100">
-          <img src={loginImage} alt="login" width="100%" height="auto" />
         </div>
       </div>
     </div>
