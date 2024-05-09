@@ -2,17 +2,16 @@ import { useEffect } from 'react';
 import { FieldValues, SubmitHandler, useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
 
-import { Button, Input, ItemList, PageHeader, Select } from '@components';
+import { Button, Input, Item, ItemList, PageHeader, Select } from '@components';
 import { useAuthContext } from '@contexts/AuthProvider';
 
 export default function RideOfferPage() {
   const {
-    setError,
     register,
     handleSubmit,
     formState: { errors },
   } = useForm();
-  const { login, user, isLoadingRequest } = useAuthContext();
+  const { user, isLoadingRequest } = useAuthContext();
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -32,15 +31,19 @@ export default function RideOfferPage() {
   }) as SubmitHandler<FieldValues>;
 
   return (
-    <div className="bg-neutral-95">
+    <div className="">
       <PageHeader title="Ofertar carona" backButton={true}></PageHeader>
       <ItemList
         items={[
-          {
-            title: 'Modelo Veículo',
-            description: 'Marca / Placa',
-            icon: 'directions_car',
-          },
+          <>
+            <Item
+              key="volunteer"
+              title={'Modelo Veículo'}
+              description={'Marca / Placa'}
+              icon={'directions_car'}
+              route={'/volunteer'}
+            />
+          </>,
         ]}
       />
       <div

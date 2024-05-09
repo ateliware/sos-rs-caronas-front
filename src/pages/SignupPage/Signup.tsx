@@ -38,8 +38,11 @@ export default function SignupPage() {
   }) as SubmitHandler<FieldValues>;
 
   return (
-    <div className="bg-neutral-95">
-      <PageHeader title="Cadastro" backButton={true}></PageHeader>
+    <>
+      <div className="p-s-100">
+        <PageHeader title="Cadastro" backButton={true}></PageHeader>
+      </div>
+
       <div
         className="d-flex justify-center p-s-300"
         style={{ height: '100vh' }}
@@ -137,7 +140,7 @@ export default function SignupPage() {
             <Button
               type="submit"
               isLoading={isLoadingRequest}
-              className="!w-100 mb-s-200"
+              className="!w-100 mt-s-200"
               alignText="center"
             >
               Cadastrar
@@ -145,6 +148,6 @@ export default function SignupPage() {
           </form>
         </div>
       </div>
-    </div>
+    </>
   );
 }
