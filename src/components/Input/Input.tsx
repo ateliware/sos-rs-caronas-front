@@ -48,7 +48,7 @@ const masks = {
   zipCode: '99999-999',
   phone: '(99) 99999-9999',
   color: ['#', ...new Array(6).fill(/[a-f0-9]/i)],
-  onlyNumbers: '9999999999',
+  onlyNumbers: '99999999999',
 };
 
 const hiddenMaskPlaceholder = ['currency', 'color', 'zipCode', 'onlyNumbers'];
