@@ -16,6 +16,7 @@ import {
   NotFoundPage,
   RecoverPasswordPage,
   ResetPasswordPage,
+  RideOfferPage,
   SignupPage,
   UserPage,
 } from '@pages';
@@ -58,34 +59,42 @@ function App() {
       <BrowserRouter>
         <ConfirmationModalProvider>
           <AuthProvider>
-            <Routes>
-              <Route path="">
-                <Route path="" element={<LoginPage />} />
-                <Route path="signup" element={<SignupPage />} />
-                <Route path="login" element={<LoginPage />} />
-                <Route path="recover_password">
-                  <Route path="" element={<RecoverPasswordPage />} />
-                  <Route path=":token" element={<ResetPasswordPage />} />
-                </Route>
-                <Route path="email_sent" element={<EmailSentPage />} />
-                <Route path="about" element={<>Example about page</>} />
+            <div className="row justify-center">
+              <div className="col-sm-12 col-md-6">
+                <Routes>
+                  <Route path="">
+                    <Route path="" element={<LoginPage />} />
+                    <Route path="signup" element={<SignupPage />} />
+                    <Route path="login" element={<LoginPage />} />
+                    <Route path="recover_password">
+                      <Route path="" element={<RecoverPasswordPage />} />
+                      <Route path=":token" element={<ResetPasswordPage />} />
+                    </Route>
+                    <Route path="email_sent" element={<EmailSentPage />} />
+                    <Route path="about" element={<>Example about page</>} />
 
-                <Route path="vehicle/add" element={<VehicleFormPage />} />
-                <Route path="*" element={<NotFoundPage />} />
-              </Route>
+                    <Route path="vehicle/add" element={<VehicleFormPage />} />
+                    <Route path="*" element={<NotFoundPage />} />
+                    <Route path="home" element={<HomePage />} />
+                    <Route path="ride_offer" element={<RideOfferPage />} />
+                  </Route>
 
-              <Route path="" element={<Authenticated />}>
-                <Route path="/me" element={<MePage />} />
-                <Route path="home" element={<HomePage />} />
-                <Route path="/users" element={<UserPage />} />
-                <Route path="dashboard" element={<>Dashboard Content</>} />
-                <Route path="protected" element={<>Example protected page</>} />
-                <Route
-                  path="protected2"
-                  element={<>Example protected page 2</>}
-                />
-              </Route>
-            </Routes>
+                  <Route path="" element={<Authenticated />}>
+                    <Route path="/me" element={<MePage />} />
+                    <Route path="/users" element={<UserPage />} />
+                    <Route path="dashboard" element={<>Dashboard Content</>} />
+                    <Route
+                      path="protected"
+                      element={<>Example protected page</>}
+                    />
+                    <Route
+                      path="protected2"
+                      element={<>Example protected page 2</>}
+                    />
+                  </Route>
+                </Routes>
+              </div>
+            </div>
           </AuthProvider>
         </ConfirmationModalProvider>
       </BrowserRouter>
