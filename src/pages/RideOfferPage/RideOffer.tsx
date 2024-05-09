@@ -9,7 +9,7 @@ export default function RideOfferPage() {
   const {
     register,
     handleSubmit,
-    formState: { errors },
+    formState: { errors, isSubmitting },
   } = useForm();
   const { user, isLoadingRequest } = useAuthContext();
   const navigate = useNavigate();
@@ -114,14 +114,35 @@ export default function RideOfferPage() {
               error={!!errors.returnDate}
               caption={errors.returnDate?.message as string}
             />
-            <Button
-              type="submit"
-              isLoading={isLoadingRequest}
-              className="!w-100 mb-s-100"
-              alignText="center"
-            >
-              Cadastrar
-            </Button>
+
+            <hr className="mt-s-400 w-100 bg-neutral-60" />
+
+            <div className="d-flex justify-between mt-s-400">
+              <div className="col-sm-5">
+                <Button
+                  type="button"
+                  className="!w-100 mb-s-100"
+                  alignText="center"
+                  size="small"
+                  design="transparent"
+                  onClick={() => navigate('/home')}
+                >
+                  Cancelar
+                </Button>
+              </div>
+
+              <div className="col-sm-5">
+                <Button
+                  type="submit"
+                  isLoading={isSubmitting}
+                  className="!w-100 mb-s-100"
+                  alignText="center"
+                  size="small"
+                >
+                  Confirmar
+                </Button>
+              </div>
+            </div>
           </form>
         </div>
       </div>

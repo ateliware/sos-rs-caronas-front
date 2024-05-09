@@ -11,7 +11,7 @@ export default function SignupPage() {
     setError,
     register,
     handleSubmit,
-    formState: { errors },
+    formState: { errors, isSubmitting },
   } = useForm();
   const { login, user, isLoadingRequest } = useAuthContext();
   const navigate = useNavigate();
@@ -137,14 +137,34 @@ export default function SignupPage() {
               error={!!errors.city}
               caption={errors.city?.message as string}
             />
-            <Button
-              type="submit"
-              isLoading={isLoadingRequest}
-              className="!w-100 mt-s-200"
-              alignText="center"
-            >
-              Cadastrar
-            </Button>
+            <hr className="mt-s-400 w-100 bg-neutral-60" />
+
+            <div className="d-flex justify-between mt-s-400">
+              <div className="col-sm-5">
+                <Button
+                  type="button"
+                  className="!w-100 mb-s-100"
+                  alignText="center"
+                  size="small"
+                  design="transparent"
+                  onClick={() => navigate('/home')}
+                >
+                  Cancelar
+                </Button>
+              </div>
+
+              <div className="col-sm-5">
+                <Button
+                  type="submit"
+                  isLoading={isSubmitting}
+                  className="!w-100 mb-s-100"
+                  alignText="center"
+                  size="small"
+                >
+                  Confirmar
+                </Button>
+              </div>
+            </div>
           </form>
         </div>
       </div>
