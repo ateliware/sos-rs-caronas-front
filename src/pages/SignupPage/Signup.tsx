@@ -1,16 +1,26 @@
 import { useEffect } from 'react';
 import { FieldValues, SubmitHandler, useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
-
-import { Button, FileUpload, Input, PageHeader, Select } from '@components';
+import {
+  Button,
+  Checkbox,
+  FileUpload,
+  Input,
+  PageHeader,
+  PasswordInput,
+  Select,
+} from '@components';
 import { useAuthContext } from '@contexts/AuthProvider';
 import { handleErrorForm } from '@services/api';
+import { RemotePerson } from 'interfaces/Person';
+import PersonAPICaller from '@services/api/person';
 
 export default function SignupPage() {
   const {
     setError,
     register,
     handleSubmit,
+    watch,
     formState: { errors, isSubmitting },
   } = useForm();
   const { login, user, isLoadingRequest } = useAuthContext();
@@ -22,19 +32,42 @@ export default function SignupPage() {
   }, [user, navigate]);
 
   const onSubmit = ((data: {
-    password: string;
-    fullName: string;
-    birthDate: string;
     cpf: string;
+    password: string;
+    passwordConfirm: string;
+    name: string;
     phoneNumber: string;
-    state: string;
+    emergencyPhone: string;
+    emergencyContact: string;
+    birthDate: string;
+    avatar: string;
     city: string;
-    emergencyContactName: string;
-    emergencyContactPhone: string;
+    lgpdAcceptance: boolean;
   }) => {
-    login(data.cpf.toLowerCase(), data.password).catch(
-      handleErrorForm(setError)
-    );
+    try {
+      const remotePersonData: RemotePerson = {
+        cpf: data.cpf,
+        password: data.password,
+        password_confirm: data.passwordConfirm,
+        name: data.name,
+        phone: data.phoneNumber,
+        emergency_phone: data.emergencyPhone,
+        emergency_contact: data.emergencyContact,
+        birth_date: data.birthDate,
+        avatar: data.avatar,
+        city_id: 1,
+        lgpd_acceptance: data.lgpdAcceptance,
+      };
+      console.log(remotePersonData);
+
+      PersonAPICaller.register(remotePersonData)
+        .then((data) => console.log(data))
+        .catch(() => {
+          handleErrorForm(setError);
+        });
+    } catch (error) {
+      handleErrorForm(setError);
+    }
   }) as SubmitHandler<FieldValues>;
 
   return (
@@ -56,11 +89,11 @@ export default function SignupPage() {
             <FileUpload label="Foto do Perfil" uploadPreview={true} />
             <Input
               className="mb-s-100 mt-s-200"
-              form={register('fullName', { required: 'Obrigatório' })}
+              form={register('name', { required: 'Obrigatório' })}
               label="Nome Completo"
               placeholder="Nome completo"
-              error={!!errors.fullName}
-              caption={errors.fullName?.message as string}
+              error={!!errors.name}
+              caption={errors.name?.message as string}
             />
             <Input
               className="mb-s-100"
@@ -100,16 +133,16 @@ export default function SignupPage() {
             />
             <Input
               className="mb-s-100"
-              form={register('emergencyContactName', {
+              form={register('emergencyContact', {
                 required: 'Obrigatório',
               })}
               label="Nome do contato emergencial"
-              error={!!errors.emergencyContactName}
-              caption={errors.emergencyContactName?.message as string}
+              error={!!errors.emergencyContact}
+              caption={errors.emergencyContact?.message as string}
             />
             <Input
               className="mb-s-100"
-              form={register('emergencyContactNumber', {
+              form={register('emergencyPhone', {
                 required: 'Obrigatório',
                 pattern: {
                   value: /^\d{10,11}$/,
@@ -118,27 +151,44 @@ export default function SignupPage() {
               })}
               label="Telefone contato emergencial"
               placeholder="Apenas números"
-              error={!!errors.emergencyContactNumber}
-              caption={errors.emergencyContactNumber?.message as string}
+              error={!!errors.emergencyPhone}
+              caption={errors.emergencyPhone?.message as string}
             />
             <Select
               className="mb-s-100"
-              form={register('state', { required: 'Obrigatório' })}
-              label="Estado"
-              value=""
-              error={!!errors.state}
-              isSearchable={true}
-              caption={errors.state?.message as string}
-            />
-            <Select
-              className="mb-s-100"
-              form={register('city', { required: 'Obrigatório' })}
+              form={register('city')}
               label="Cidade"
-              value=""
+              value={watch('city')}
               error={!!errors.city}
-              isSearchable={true}
+              // isSearchable={true}
+              options={[{ label: 'Cidade', value: '1' }]}
               caption={errors.city?.message as string}
             />
+            <PasswordInput
+              className="mb-s-100"
+              form={register('password', {
+                required: 'Obrigatório',
+              })}
+              label="Senha"
+              error={!!errors.password}
+              caption={errors.password?.message as string}
+            />
+            <PasswordInput
+              className="mb-s-100"
+              form={register('passwordConfirm', {
+                required: 'Obrigatório',
+              })}
+              label="Confirmação Senha"
+              error={!!errors.passwordConfirm}
+              caption={errors.passwordConfirm?.message as string}
+            />
+            <Checkbox
+              form={register('lgpdAcceptance', {
+                required: 'Obrigatório',
+              })}
+              label="Aceito os termos de uso"
+            />
+
             <hr className="mt-s-400 w-100 bg-neutral-60" />
 
             <div className="d-flex justify-between mt-s-400">
