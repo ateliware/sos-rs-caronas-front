@@ -30,7 +30,7 @@ export default function LoginPage() {
 
   return (
     <div className="bg-neutral-95 row justify-center">
-      <div className="col-12 col-md-4">
+      <div className="col-sm-12 col-md-4">
         <div className="d-flex justify-center">
           <div className="d-flex justify-center background-login-page">
             <form
