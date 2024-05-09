@@ -38,3 +38,5 @@ export { Spinner } from './Spinner';
 export { Tab } from './Tab';
 export { ItemList } from './ItemList';
 export type { SelectedKeys, ColumnProps } from './Table';
+export type { ItemProps } from './ItemList';
+export { Item } from './ItemList';
