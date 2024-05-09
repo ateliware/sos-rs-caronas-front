@@ -35,10 +35,11 @@ export function AuthProvider({ children }: PropsWithChildren) {
   const [loading, setLoading] = useState(true);
   const [isLoadingRequest, setIsLoadingRequest] = useState(false);
 
-  const handleLogin = async (email: string, password: string) => {
+  const handleLogin = async (cpf: string, password: string) => {
     setIsLoadingRequest(true);
     try {
-      const { data } = await login(email, password);
+      const { data } = await login(cpf, password);
+      console.log(data);
       const { user, token } = data;
 
       if (user) {
