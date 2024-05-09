@@ -36,4 +36,5 @@ export { Map } from './Map';
 export { Table, TableColumn } from './Table';
 export { Spinner } from './Spinner';
 export { Tab } from './Tab';
+export { ItemList } from './ItemList';
 export type { SelectedKeys, ColumnProps } from './Table';

@@ -22,6 +22,7 @@ import {
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { ConfirmationModalProvider } from '@contexts/ConfirmationContext';
+import { VehicleFormPage } from '@pages/Vehicle';
 
 function Authenticated() {
   const location = useLocation();
@@ -68,13 +69,15 @@ function App() {
                 </Route>
                 <Route path="email_sent" element={<EmailSentPage />} />
                 <Route path="about" element={<>Example about page</>} />
+
+                <Route path="vehicle/add" element={<VehicleFormPage />} />
                 <Route path="*" element={<NotFoundPage />} />
               </Route>
 
               <Route path="" element={<Authenticated />}>
                 <Route path="/me" element={<MePage />} />
+                <Route path="home" element={<HomePage />} />
                 <Route path="/users" element={<UserPage />} />
-                <Route path="/home" element={<HomePage />} />
                 <Route path="dashboard" element={<>Dashboard Content</>} />
                 <Route path="protected" element={<>Example protected page</>} />
                 <Route

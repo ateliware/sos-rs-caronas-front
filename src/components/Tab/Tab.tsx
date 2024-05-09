@@ -18,7 +18,7 @@ export default function Tab(props: Props) {
 
   return (
     <>
-      <div className="tabs">
+      <div className="tabs d-flex justify-center">
         {props.tabs?.map((tab, index: number) => {
           const tabClasses = [
             'tab',
