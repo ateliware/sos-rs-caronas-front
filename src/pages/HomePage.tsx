@@ -2,7 +2,7 @@ import '@styles/index.scss';
 import '../App.css';
 import logo from '@assets/logo-small.svg';
 
-import { Icon, Item, ItemList, PageHeader, Tab } from '@components';
+import { Button, Icon, Item, ItemList, PageHeader, Tab } from '@components';
 import { useAuthContext } from '@contexts/AuthProvider';
 
 function HomePage() {
@@ -43,17 +43,20 @@ function HomePage() {
       component: <div>Conteúdo de Caronas</div>,
     },
   ];
-  const { logout, user } = useAuthContext();
+  const { logout } = useAuthContext();
 
   return (
     <>
-      <div className="p-s-300 align-items-center">
+      <div className="pb-s-300 pt-s-300 align-items-center">
         <PageHeader
           logo={logo}
           actions={
-            <a onClick={() => logout()}>
-              <Icon>logout</Icon>
-            </a>
+            <Button
+              className="sidebutton__label sidebutton__label--xs"
+              prefixes={<Icon>logout</Icon>}
+              design="transparent"
+              onClick={() => logout()}
+            ></Button>
           }
         />
       </div>
