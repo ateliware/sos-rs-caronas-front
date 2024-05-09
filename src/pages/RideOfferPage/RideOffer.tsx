@@ -32,9 +32,9 @@ export default function RideOfferPage() {
   }) as SubmitHandler<FieldValues>;
 
   return (
-    <div className="bg-neutral-95">
+    <div className="">
       <PageHeader title="Ofertar carona" backButton={true}></PageHeader>
-      <ItemList
+      {/* <ItemList
         items={[
           {
             title: 'Modelo Veículo',
@@ -42,7 +42,7 @@ export default function RideOfferPage() {
             icon: 'directions_car',
           },
         ]}
-      />
+      /> */}
       <div
         className="d-flex justify-center p-s-300"
         style={{ height: '100vh' }}
