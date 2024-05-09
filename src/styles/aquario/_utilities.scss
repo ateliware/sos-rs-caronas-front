@@ -1,0 +1,425 @@
+@use "sass:math";
+@use "sass:map";
+
+$sizes-utilities: (
+  "padding": (
+    "prefix": "p",
+    "sizes": (
+      "initial":initial,
+      "inherit":inherit,
+      "zero":0,
+      "s": $base-padding,
+      "m": $base-padding * 19,
+      "l": $base-padding * 37,
+    ),
+  ),
+  "padding-left": (
+    "prefix": "pl",
+    "sizes": (
+      "auto": auto,
+      "initial":initial,
+      "inherit":inherit,
+      "zero":0,
+      "s": $base-padding,
+      "m": $base-padding * 19,
+      "l": $base-padding * 37,
+    ),
+  ),
+  "padding-right": (
+    "prefix": "pr",
+    "sizes": (
+      "auto": auto,
+      "initial":initial,
+      "inherit":inherit,
+      "zero":0,
+      "s": $base-padding,
+      "m": $base-padding * 19,
+      "l": $base-padding * 37,
+    ),
+  ),
+  "padding-top": (
+    "prefix": "pt",
+    "sizes": (
+      "auto": auto,
+      "initial":initial,
+      "inherit":inherit,
+      "zero":0,
+      "s": $base-padding,
+      "m": $base-padding * 19,
+      "l": $base-padding * 37,
+    ),
+  ),
+  "padding-bottom": (
+    "prefix": "pb",
+    "sizes": (
+      "auto": auto,
+      "initial":initial,
+      "inherit":inherit,
+      "zero":0,
+      "s": $base-padding,
+      "m": $base-padding * 19,
+      "l": $base-padding * 37,
+    ),
+  ),
+  "margin": (
+    "prefix": "m",
+    "sizes": (
+      "auto": auto,
+      "initial":initial,
+      "inherit":inherit,
+      "zero":0,
+      "s": $base-padding,
+      "m": $base-padding * 19,
+      "l": $base-padding * 37,
+    ),
+  ),
+  "margin-left": (
+    "prefix": "ml",
+    "sizes": (
+      "auto": auto,
+      "initial":initial,
+      "inherit":inherit,
+      "zero":0,
+      "s": $base-padding,
+      "m": $base-padding * 19,
+      "l": $base-padding * 37,
+    ),
+  ),
+  "margin-right": (
+    "prefix": "mr",
+    "sizes": (
+      "auto": auto,
+      "initial":initial,
+      "inherit":inherit,
+      "zero":0,
+      "s": $base-padding,
+      "m": $base-padding * 19,
+      "l": $base-padding * 37,
+    ),
+  ),
+  "margin-top": (
+    "prefix": "mt",
+    "sizes": (
+      "auto": auto,
+      "initial":initial,
+      "inherit":inherit,
+      "zero":0,
+      "s": $base-padding,
+      "m": $base-padding * 19,
+      "l": $base-padding * 37,
+    ),
+  ),
+  "margin-bottom": (
+    "prefix": "mb",
+    "sizes": (
+      "auto": auto,
+      "initial":initial,
+      "inherit":inherit,
+      "zero":0,
+      "s": $base-padding,
+      "m": $base-padding * 19,
+      "l": $base-padding * 37,
+    ),
+  ),
+  "font-size": (
+    "prefix": "font",
+    "sizes": (
+      "auto": auto,
+      "initial":initial,
+      "inherit":inherit,
+      "zero":0,
+      "s": $base-font-size,
+      "m": $base-font-size * 19,
+      "l": $base-font-size * 37,
+      "xs": $base-font-size * 0.65,
+    ),
+  ),
+);
+$utilities: (
+  "opacity": (
+    "prefix": "opacity",
+    "values": (
+      "total": 1,
+      "high": 0.8,
+      "medium": 0.5,
+      "soft": 0.3,
+      "zero": 0,
+    ),
+  ),
+  "box-shadow": (
+    "prefix": "box-shadow",
+    "values": (
+      "low": 0 1px 1px rgb(0 0 0 / 14%),
+      "medium": 0 8px 10px rgb(0 0 0 / 14%),
+      "high": 0 16px 24px rgb(0 0 0 / 14%),
+    ),
+  ),
+  "border": (
+    "prefix": "border-width",
+    "values": (
+      "none": 0,
+      "small": $base-border-thickness,
+      "medium": $base-border-thickness * 2,
+      "large": $base-border-thickness * 4,
+    ),
+  ),
+  "border-radius": (
+    "prefix": "border-radius",
+    "values": (
+      "circle":50%,
+      "square": 0,
+      "050": $base-border-radius,
+      "100": $base-border-radius * 2,
+      "350": $base-border-radius * 25,
+    ),
+  ),
+  "font-weight": (
+    "prefix": "font-weight",
+    "values": (
+      "thin": 100,
+      "extralight": 200,
+      "light": 300,
+      "regular": 400,
+      "medium": 500,
+      "semibold": 600,
+      "bold": 700,
+      "extrabold": 800,
+      "black": 900,
+    ),
+  ),
+  "line-height": (
+    "prefix": "line-height",
+    "values": (
+      "default": 100%,
+      "small": 120%,
+      "medium": 140%,
+      "high": 180%,
+    ),
+  ),
+  "letter-spacing": (
+    "prefix": "letter-spacing",
+    "values": (
+      "none": 0,
+      "small": 1%,
+      "medium": 4%,
+      "large": 8%,
+    ),
+  ),
+  "vertical-align":(
+    "prefix":"valign",
+    "values": (
+      "baseline":baseline,
+      "sub":sub,
+      "super":super,
+      "text-top":text-top,
+      "text-bottom":text-bottom,
+      "middle":middle,
+      "top":top,
+      "bottom":bottom,
+      "inherit":inherit,
+      "initial":initial,
+      "unset":unset
+    )
+  ),
+  "text-align": (
+    "prefix": "text",
+    "values": (
+      "left": left,
+      "right": right,
+      "center": center,
+      "justify": justify,
+      "justify-all": justify-all,
+      "start": start,
+      "end": end,
+      "inherit": inherit,
+      "initial": initial,
+      "unset": unset,
+    ),
+  ),
+  "text-decoration": (
+    "prefix": "text-decoration",
+    "values": (
+      "none": none,
+      "underline": underline,
+    )
+  ),
+  "width": (
+    "prefix": "w",
+    "values": (
+      "100": 100%,
+      "75": 75%,
+      "50": 50%,
+      "25": 25%,
+      "auto": auto,
+    ),
+  ),
+  "flex-direction":(
+    "prefix":"flex-direction",
+    "values":(
+      "row":row,
+      "column":column
+    )
+  ),
+  "display": (
+    "prefix": "d",
+    "values": (
+      "none": none,
+      "flex": flex,
+      "inline": inline,
+      "inline-block": inline-block,
+      "block": block,
+      "grid": grid,
+      "table": table,
+      "table-cell": table-cell,
+      "table-row": table-row,
+      "inline-flex": inline-flex,
+      "inline-glid": inline-grid,
+    ),
+  ),
+  "float": (
+    "prefix": "float",
+    "values": (
+      "left": left,
+      "right": right,
+    ),
+  ),
+  "position": (
+    "prefix": "position",
+    "values": (
+      "absolute": absolute,
+    ),
+  ),
+  "align-items": (
+    "prefix": "align-items",
+    "values": (
+      "stretch": stretch,
+      "center": center,
+      "flex-start": flex-start,
+      "flex-end": flex-end,
+      "baseline": baseline,
+      "initial": initial,
+      "inherit": inherit,
+    ),
+  ),
+  "align-self": (
+    "prefix": "align-self",
+    "values": (
+      "auto": auto,
+      "stretch": stretch,
+      "center": center,
+      "flex-start": flex-start,
+      "flex-end": flex-end,
+      "baseline": baseline,
+      "initial": initial,
+      "inherit": inherit,
+    ),
+  ),
+  "font-style": (
+    "prefix": "font",
+    "values": (
+      "italic": italic,
+    ),
+  ),
+  "height": (
+    "prefix": "h",
+    "values": (
+      "0": 0,
+      "25": 25%,
+      "50": 50%,
+      "75": 75%,
+      "100": 100%,
+    ),
+  ),
+  "justify-content": (
+    "prefix": "justify",
+    "values": (
+      "start": flex-start,
+      "end": flex-end,
+      "center": center,
+      "between": space-between,
+    ),
+  ),
+  "max-height": (
+    "prefix": "max-height",
+    "values": (
+      "100": 100%,
+      "100vh": 100vh,
+    ),
+  ),
+  "max-width": (
+    "prefix": "max-width",
+    "values": (
+      "100": 100%,
+      "100vh": 100vh,
+    ),
+  ),
+  "min-width": (
+    "prefix": "min-width",
+    "values": (
+      "100": 100%,
+      "100vh": 100vh,
+    ),
+  ),
+);
+
+// generate utility classes
+@each $property, $map in $sizes-utilities {
+  $prefix: map.get($map, "prefix");
+  $sizes: map.get($map, "sizes");
+
+  @each $size, $value in $sizes {
+    @if $size == "auto" {
+      .#{$prefix}-#{$size} {
+        #{$property}: #{$value};
+      }
+      .\!#{$prefix}-#{$size} {
+        #{$property}: $value !important;
+      }
+    } @else if $size == "initial" {
+      .#{$prefix}-#{$size} {
+        #{$property}: #{$value};
+      }
+      .\!#{$prefix}-#{$size} {
+        #{$property}: $value !important;
+      }
+    } @else if $size == "inherit" {
+      .#{$prefix}-#{$size} {
+        #{$property}: #{$value};
+      }
+      .\!#{$prefix}-#{$size} {
+        #{$property}: $value !important;
+      }
+    } @else if $size == "zero" {
+      .#{$prefix}-0 {
+        #{$property}: #{$value};
+      }
+      .\!#{$prefix}-0 {
+        #{$property}: $value !important;
+      }
+    } @else {
+      @each $number, $labelSize in $utilities-steps {
+        .#{$prefix}-#{$size}-#{$labelSize} {
+          #{$property}: #{$value + ($number * 0.25)};
+        }
+
+        .\!#{$prefix}-#{$size}-#{$labelSize} {
+          #{$property}: #{$value + ($number * 0.25)} !important;
+        }
+      }
+    }
+  }
+}
+
+@each $property, $map in $utilities {
+  $prefix: map.get($map, "prefix");
+  $values: map.get($map, "values");
+
+  @each $k, $v in $values {
+    .\!#{$prefix}-#{$k} {
+      #{$property}: $v !important;
+    }
+    .#{$prefix}-#{$k} {
+      #{$property}: $v;
+    }
+  }
+}

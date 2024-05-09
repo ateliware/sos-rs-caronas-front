@@ -1,0 +1,59 @@
+.form-input {
+  &__container {
+
+    input:-webkit-autofill,
+    input:-webkit-autofill:hover,
+    input:-webkit-autofill:focus,
+    input:-webkit-autofill:active {
+      transition: background-color 5000s ease-in-out 0s;
+    }
+  }
+
+  &__emoji-picker {
+    float: right;
+    margin-top: 0.5rem;
+
+    &__wrapper {
+      position: relative;
+
+      &__content {
+        display: inline;
+        position: absolute;
+        bottom: 40px;
+        left: 40px;
+        z-index: 2;
+      }
+    }
+  }
+}
+
+textarea {
+  resize: vertical;
+  word-break: break-all !important;
+  white-space: pre-wrap !important;
+  overflow-wrap: break-word !important;
+  overflow-y: scroll !important;
+}
+
+.color-selected {
+  flex-shrink: 0;
+  width: 30px;
+  height: 30px;
+  border-radius: 0.5rem;
+}
+
+.form-input__select {
+  select {
+    -webkit-appearance: none;
+    appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 256 256'%3E%3Crect width='256' height='256' fill='none'/%3E%3Cpolyline points='208 96 128 176 48 96' fill='none' stroke='%23000' stroke-linecap='round' stroke-linejoin='round' stroke-width='12'/%3E%3C/svg%3E");
+    background-size: 24px;
+    background-repeat: no-repeat;
+    background-position: calc(100% - 8px) center;
+  }
+}
+
+input[type="search"]::-webkit-search-decoration:hover,
+input[type="search"]::-webkit-search-cancel-button:hover {
+  cursor: pointer;
+}

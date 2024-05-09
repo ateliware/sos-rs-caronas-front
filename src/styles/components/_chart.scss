@@ -1,0 +1,10 @@
+.x-axis-tick {
+  max-width: 40px;
+  white-space: normal;
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-line-clamp: 3; /* max lines */
+  -webkit-box-orient: vertical;
+  text-overflow: ellipsis;
+  word-break: break-all;
+}

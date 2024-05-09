@@ -1,0 +1,35 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`TableButton should render 1`] = `
+<div>
+  <button
+    class="btn btn--icon-square btn--table-action ml-s-100"
+  >
+    <span
+      class="btn__body"
+    >
+      <span
+        class="btn__body__icon material-symbols-rounded"
+      />
+    </span>
+  </button>
+</div>
+`;
+
+exports[`TableButton should render with variants 1`] = `
+<div>
+  <button
+    class="btn btn--icon-square btn--table-action ml-s-100"
+  >
+    <span
+      class="btn__body"
+    >
+      <span
+        class="btn__body__icon material-symbols-rounded"
+      >
+        add
+      </span>
+    </span>
+  </button>
+</div>
+`;

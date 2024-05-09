@@ -1,0 +1,22 @@
+%form-label-base {
+  /* stylelint-disable-next-line scss/at-extend-no-missing-placeholder */
+  @extend .d-flex;
+  /* stylelint-disable-next-line scss/at-extend-no-missing-placeholder */
+  @extend .align-items-center;
+  /* stylelint-disable-next-line scss/at-extend-no-missing-placeholder */
+  @extend .font-s-150;
+  /* stylelint-disable-next-line scss/at-extend-no-missing-placeholder */
+  @extend .font-weight-regular;
+  /* stylelint-disable-next-line scss/at-extend-no-missing-placeholder */
+  @extend .line-height-medium;
+  /* stylelint-disable-next-line scss/at-extend-no-missing-placeholder */
+  @extend .text-neutral-30;
+
+  flex: none;
+  order: 0;
+  flex-grow: 0;
+}
+
+@include class-with-prefix(form-label) {
+  @extend %form-label-base;
+}

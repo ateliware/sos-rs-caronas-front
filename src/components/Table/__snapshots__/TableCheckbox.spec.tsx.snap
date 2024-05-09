@@ -1,0 +1,71 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`TableCheckbox should render 1`] = `
+<div>
+  <table>
+    <tbody>
+      <tr>
+        <td
+          class="table__cell table__cell--checkbox"
+        >
+          <div
+            class="table__cell__content"
+          >
+            <div
+              class="form-check"
+            >
+              <input
+                class="form-check-input"
+                id="checkbox"
+                type="checkbox"
+              />
+            </div>
+          </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+`;
+
+exports[`TableCheckbox should render with variants 1`] = `
+<div>
+  <table>
+    <thead>
+      <tr>
+        <th
+          class="table__cell table__cell--checkbox"
+        >
+          <div
+            class="table__cell__content"
+          >
+            <div
+              class="form-check"
+            >
+              <input
+                checked=""
+                class="form-check-input"
+                id="checkbox"
+                type="checkbox"
+              />
+            </div>
+            <button
+              class="btn btn--icon-square btn--table-action ml-s-50"
+            >
+              <div
+                class="btn__body"
+              >
+                <span
+                  class="material-symbols-outlined btn__body__icon"
+                >
+                  arrow_drop_down
+                </span>
+              </div>
+            </button>
+          </div>
+        </th>
+      </tr>
+    </thead>
+  </table>
+</div>
+`;

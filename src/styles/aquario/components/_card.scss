@@ -1,0 +1,266 @@
+@use "sass:math";
+@use "sass:selector";
+@use "sass:map";
+
+%card-base {
+  border: 1px solid map.get($generated-colors, "neutral-90");
+  border-radius: $base-border-radius * 4;
+  height: fit-content;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+%card-header-base,%card-footer-base {
+  padding: $base-padding * 4;
+}
+
+%card-body-base {
+  background: transparent;
+}
+
+%card-footer-action-container-base {
+  display: flex;
+}
+
+%card-body-content-base,%card-body-header-base {
+  padding: $base-padding * 4;
+}
+
+%card-body-footer-base {
+  padding: $base-padding * 4;
+  font-weight: 400;
+  line-height: 140%;
+}
+
+%card-body-content-text-base {
+  font-weight: 400;
+  line-height: 140%;
+  color: map.get($generated-colors, "neutral-20");
+}
+
+%card-body-footer-text-base {
+  color: map.get($generated-colors, "neutral-50");
+  font-size: $font-size-lg;
+  line-height: $font-size-lg;
+}
+
+%card-header-title-base {
+  font-size: $font-size-xxl;
+  line-height: $font-size-xxl;
+  color: map.get($generated-colors, "neutral-20");
+  font-family: $font-family-body;
+  font-weight: 700;
+}
+
+%card-header-subtitle-base {
+  font-size: $font-size-xl;
+  line-height: $font-size-xl;
+  color: map.get($generated-colors, "neutral-50");
+  font-family: $font-family-body;
+  font-weight: 500;
+}
+
+@mixin generate-card() {
+  @extend %card-base;
+
+  $card-root: &;
+  $card-header-root: #{$card-root}__header;
+  $card-body-root: #{$card-root}__body;
+  $card-footer-root: #{$card-root}__footer;
+  $card-image-root: #{$card-root}__image;
+
+  #{$card-header-root},#{$card-body-root},#{$card-image-root},#{$card-footer-root} {
+    // .card .card__image
+    & + #{$card-footer-root},
+    & + #{$card-header-root},
+    & + #{$card-body-root},
+    & + #{$card-image-root} {
+      // .card .card__header + .card__footer
+      padding-top: 0;
+    }
+  }
+
+  @at-root #{$card-image-root} {
+    width: 100%;
+    height: auto;
+  }
+
+  @at-root #{$card-header-root} {
+    $card-header-checkbox-wrapper-unnested: #{$card-header-root}__checkbox__wrapper;
+    $card-header-title-container-unnested: #{$card-header-root}__title__container;
+
+    #{$card-root} & {
+      // .card .card__header
+      @extend %card-header-base;
+
+      $card-header-title-root-unnested: #{$card-header-root}__title;
+      $card-header-subtitle-root-unnested: #{$card-header-root}__subtitle;
+      $card-header-title-root: selector.nest(&, #{$card-header-title-root-unnested});
+      $card-header-subtitle-root: selector.nest(&, #{$card-header-subtitle-root-unnested});
+
+      @at-root #{$card-header-title-root} {
+        // .card .card__header .card__header__title
+        @extend %card-header-title-base;
+        + #{$card-header-subtitle-root-unnested} {
+          margin-top: $base-margin * 2;
+        }
+      }
+
+      @at-root #{$card-header-subtitle-root} {
+        // .card .card__header .card__header__subtitle
+        @extend %card-header-subtitle-base;
+      }
+    }
+
+    @at-root #{$card-root} {
+      @at-root #{selector.unify(&,#{&}--checkable)} {
+        // .card.card--checkable
+
+        #{$card-header-root} {
+          // .card.card--checkable .card__header
+
+          $card-header-checkbox-wrapper-root: selector.nest(&, $card-header-checkbox-wrapper-unnested);
+          $card-header-title-container-root: selector.nest(&, $card-header-title-container-unnested);
+
+          display: flex;
+          align-items: center;
+
+          @at-root #{$card-header-title-container-root} {
+            // .card.card--checkable .card__header .card__header__title__container
+            flex: 1;
+          }
+
+          @at-root #{$card-header-checkbox-wrapper-root} {
+            // .card.card--checkable .card__header .card__header__checkbox__wrapper
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: $base-padding;
+            margin-left: $base-margin * 4;
+          }
+        }
+      }
+    }
+  }
+
+  @at-root #{$card-footer-root} {
+    #{$card-root} & {
+      // .card .card__footer
+      @extend %card-footer-base;
+
+      $card-footer-action-container-root-unnested: #{$card-footer-root}__action__container;
+      $card-footer-action-container-root: selector.nest(&, #{$card-footer-action-container-root-unnested});
+
+      @at-root #{$card-footer-action-container-root} {
+        // .card .card__footer .card__footer__action__container
+
+        @extend %card-footer-action-container-base;
+
+        @at-root #{selector.unify(&,#{&}--right)} {
+          // .card .card__footer .card__footer__action__container.card__footer__action__container--right
+          justify-content: flex-end;
+        }
+
+        @include class-with-prefix(btn) {
+          // .card .card__footer .card__footer__action__container .btn
+
+          margin-left: $base-margin * 4;
+
+          &:first-child {
+            margin-left: 0;
+          }
+        }
+      }
+    }
+  }
+
+  @at-root #{$card-body-root} {
+    #{$card-root} & {
+      // .card .card__body
+
+      @extend %card-body-base;
+
+      $card-body-header-root-unnested: #{$card-body-root}__header;
+      $card-body-header-root: selector.nest(&, #{$card-body-header-root-unnested});
+      $card-body-content-root-unnested: #{$card-body-root}__content;
+      $card-body-content-root: selector.nest(&, #{$card-body-content-root-unnested});
+      $card-body-footer-root-unnested: #{$card-body-root}__footer;
+      $card-body-footer-root: selector.nest(&, #{$card-body-footer-root-unnested});
+
+      @at-root #{$card-body-header-root},
+      #{$card-body-content-root},
+      #{$card-body-footer-root} {
+
+        & + #{$card-body-header-root-unnested},
+        & + #{$card-body-content-root-unnested},
+        & + #{$card-body-footer-root-unnested} {
+          // .card .card__body .card__body__header + .card__body__content
+          padding-top: 0;
+        }
+      }
+
+      @at-root #{$card-body-header-root} {
+        // .card .card__body .card__body__header
+
+        @extend %card-body-header-base;
+
+        $card-body-header-title-root-unnested: #{$card-body-header-root-unnested}__title;
+        $card-body-header-subtitle-root-unnested: #{$card-body-header-root-unnested}__subtitle;
+        $card-body-header-title-root: selector.nest($card-body-header-root, #{$card-body-header-title-root-unnested});
+        $card-body-header-subtitle-root: selector.nest(
+          $card-body-header-root,
+          #{$card-body-header-subtitle-root-unnested}
+        );
+
+        @at-root #{$card-body-header-title-root} {
+          // .card .card__body .card__body__header .card__body__header__title
+          @extend %card-header-title-base;
+
+          + #{$card-body-header-subtitle-root-unnested} {
+            // .card .card__body .card__body__header .card__body__header__title + .card__body__header__subtitle
+            margin-top: $base-margin * 4;
+          }
+        }
+
+        @at-root #{$card-body-header-subtitle-root} {
+          // .card .card__body .card__body__header .card__body__header__subtitle
+          @extend %card-header-subtitle-base;
+        }
+      }
+
+      @at-root #{$card-body-content-root} {
+        // .card .card__body .card__body__content
+
+        @extend %card-body-content-base;
+
+        $card-body-content-text-root-unnested: #{$card-body-content-root-unnested}__text;
+        $card-body-content-text-root: selector.nest($card-body-content-root, #{$card-body-content-text-root-unnested});
+
+        @at-root #{$card-body-content-text-root} {
+          // .card .card__body .card__body__content .card__body__content__text
+          @extend %card-body-content-text-base;
+        }
+      }
+
+      @at-root #{$card-body-footer-root} {
+        // .card .card__body .card__body__footer
+
+        @extend %card-body-footer-base;
+
+        $card-body-footer-text-root-unnested: #{$card-body-footer-root-unnested}__text;
+        $card-body-footer-text-root: selector.nest($card-body-footer-root, #{$card-body-footer-text-root-unnested});
+
+        @at-root #{$card-body-footer-text-root} {
+          // .card .card__body .card__body__footer .card__body__footer__text
+          @extend %card-body-footer-text-base;
+        }
+      }
+    }
+  }
+}
+
+@include class-with-prefix(card) {
+  @include generate-card;
+}

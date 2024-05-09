@@ -1,0 +1,54 @@
+@use "sass:selector";
+@import "./functions";
+
+@mixin class-with-prefix($names) {
+  @each $name in $names {
+    .#{name-with-prefix($name)} {
+      @content;
+    }
+  }
+}
+
+// color
+
+@mixin colored-classes($key-name, $target-color) {
+  @include class-with-prefix(text-#{$key-name}) {
+    color: $target-color;
+  }
+
+  @include class-with-prefix(text-hover-#{$key-name}) {
+    &:hover {
+      color: $target-color;
+    }
+  }
+
+  @include class-with-prefix(bg-#{$key-name}) {
+    background-color: $target-color;
+  }
+}
+
+@mixin optional-at-root($sel) {
+  @at-root #{if(not &, $sel, selector.append(&, $sel))} {
+    @content;
+  }
+}
+
+// input-placeholder
+
+@mixin input-placeholder {
+  @include optional-at-root("::-webkit-input-placeholder") {
+    @content;
+  }
+
+  @include optional-at-root(":-moz-placeholder") {
+    @content;
+  }
+
+  @include optional-at-root("::-moz-placeholder") {
+    @content;
+  }
+
+  @include optional-at-root(":-ms-input-placeholder") {
+    @content;
+  }
+}

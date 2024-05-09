@@ -1,0 +1,46 @@
+@use "sass:map";
+
+.width-fit-content {
+  width: fit-content;
+}
+
+.max-width-700 {
+  max-width: 700px !important;
+}
+
+.unselectable {
+  user-select: none;
+}
+
+.pointer {
+  cursor: pointer
+}
+
+.bg-white {
+  background-color: white
+}
+
+.form-max-height {
+  max-height: 80vh;
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+
+input[type="checkbox"] {
+  cursor: pointer;
+}
+
+.text-success {
+  color: map.get($generated-colors, "positive");
+  font-weight: 500;
+}
+
+.text-warning {
+  color: map.get($generated-colors, "alert");
+  font-weight: 500;
+}
+
+.text-danger {
+  color: map.get($generated-colors, "negative");
+  font-weight: 500;
+}

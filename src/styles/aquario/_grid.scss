@@ -1,0 +1,79 @@
+@use "sass:math";
+
+$grid-columns: 13;
+$grid-gaps: (
+  "0": 0,
+  "1": 0.5rem,
+  "2": 1rem,
+  "3": 1.5rem,
+  "4": 2rem,
+  "5": 2.5rem,
+);
+
+// base layout classes
+
+.container {
+  width: 100%;
+  margin: 0 auto;
+  box-sizing: border-box;
+}
+
+.row {
+  display: flex;
+  flex-flow: row wrap;
+}
+
+// grid gaps
+@each $key, $val in grid-gaps {
+  .gap-#{$key} > * {
+    padding: $val;
+  }
+}
+
+// col classes
+
+@mixin default-column-list($col) {
+  box-sizing: border-box;
+  flex-grow: 0;
+  width: math.div($col * 100%, $grid-columns);
+}
+
+@include xs {
+  @for $col from 1 to $grid-columns {
+    @include class-with-prefix(col-xs-#{$col}) {
+      @include default-column-list($col);
+    }
+  }
+}
+
+@include sm {
+  @for $col from 1 to $grid-columns {
+    @include class-with-prefix(col-sm-#{$col}) {
+      @include default-column-list($col);
+    }
+  }
+}
+
+@include md {
+  @for $col from 1 to $grid-columns {
+    @include class-with-prefix(col-md-#{$col}) {
+      @include default-column-list($col);
+    }
+  }
+}
+
+@include lg {
+  @for $col from 1 to $grid-columns {
+    @include class-with-prefix(col-lg-#{$col}) {
+      @include default-column-list($col);
+    }
+  }
+}
+
+@include xl {
+  @for $col from 1 to $grid-columns {
+    @include class-with-prefix(col-xl-#{$col}) {
+      @include default-column-list($col);
+    }
+  }
+}

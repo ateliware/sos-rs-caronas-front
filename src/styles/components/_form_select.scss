@@ -1,0 +1,59 @@
+@use "sass:map";
+
+
+.form-input {
+    &__container--error>.form-select>.form-select__control {
+        box-shadow: inset #ff5b5b 0 0 0 1px, transparent 0 0 0 3px !important;
+        border: none !important;
+
+        &--is-focused {
+            box-shadow: inset $primary 0 0 0 1px, #d1e7fa 0 0 0 3px !important;
+        }
+    }
+
+    &__container--disabled>.form-select>.form-select__control {
+        box-shadow: inset #c3cfd5 0 0 0 1px, transparent 0 0 0 3px !important;
+        border: none !important;
+    }
+}
+
+.form-select {
+
+
+    &__control {
+        border-radius: 8px !important;
+        box-shadow: none !important;
+        -webkit-box-shadow: none !important;
+
+        &--is-focused {
+            border-color: $primary !important;
+            box-shadow: #d1e7fa 0 0 0 3px !important;
+        }
+
+        &:focus {
+            border-color: none !important;
+            border: none !important;
+            outline: none !important;
+        }
+
+
+    }
+
+    &__menu {
+        margin: 0.125rem auto;
+    }
+
+    &__option {
+        background-color: white;
+    }
+
+    &__group {
+        background-color: grey !important;
+        padding: 0;
+    }
+
+    &__menu-portal {
+        background-color: red !important;
+        border: 1px solid darkblue;
+    }
+}

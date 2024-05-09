@@ -1,0 +1,52 @@
+@use "sass:map";
+@use "sass:color";
+@import "./functions";
+
+$generated-colors: ();
+
+@each $key, $color in $colors {
+  $color-info: get-color-info($key);
+  $base-color: map.get($color-info, "color");
+  $color-steps: map.get($color-info, "colorSteps");
+  $omit-steps-generation: map.get($color-info, "omit-steps-generation");
+  $colors-keys: map-to-keys-list($colors);
+  $another-colors: anothers-keys($colors-keys, $key);
+  $generated-colors: map.set($generated-colors, $key, $base-color);
+
+  @include colored-classes($key, $base-color);
+
+  @each $another in $another-colors {
+    @include class-with-prefix(text-#{$another}-on-#{$key}) {
+      color: contrasts-on(map.get(get-color-info($another), "color"), $base-color);
+    }
+  }
+
+  @if $base-color != black and $base-color != white and $omit-steps-generation == false {
+    @each $this-color-key,
+      $target-lightness in $colors-steps {
+      $i-name: $this-color-key;
+      $key-name: #{$key}-#{$i-name};
+      $target-color: color.change(
+        $base-color,
+        $lightness: $target-lightness * 1%
+      );
+      $generated-colors: map.set($generated-colors, $key-name, $target-color);
+
+      @include colored-classes($key-name, $target-color);
+    }
+  } @else if $color-steps {
+    @each $colorStepKey,
+      $colorStepValue in $color-steps {
+      $key-name: #{$key}-#{$colorStepKey};
+      $generated-colors: map.set($generated-colors, $key-name, $colorStepValue);
+
+      @include colored-classes($key-name, $colorStepValue);
+    }
+  }
+}
+
+:root {
+  @each $key-name,$target-color in $generated-colors {
+    --color-#{$key-name}: #{$target-color};
+  }
+}

@@ -1,0 +1,9 @@
+%form-caption-base {
+  /* stylelint-disable-next-line scss/at-extend-no-missing-placeholder */
+  @extend .font-s-100;
+
+  display: block;
+  margin-top: $base-margin * 2;
+  line-height: 100%;
+  width: 100%;
+}

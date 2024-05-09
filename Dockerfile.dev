@@ -1,0 +1,10 @@
+FROM node:16.14-alpine
+
+WORKDIR /app
+
+COPY . .
+
+RUN npm cache clean --force
+RUN npm install
+
+EXPOSE 4000

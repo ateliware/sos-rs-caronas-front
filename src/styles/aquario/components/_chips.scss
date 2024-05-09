@@ -1,0 +1,269 @@
+@use "sass:selector";
+@use "sass:map";
+@use "sass:math";
+
+%chip-size-small-base {
+  height: 1.5rem;
+  border-radius: #{math.div(1.5, 2)}rem;
+  padding: $base-padding;
+}
+
+%chip-base {
+  height: 2rem;
+  border-radius: 1rem;
+  padding: $base-padding * 2;
+  display: flex;
+  align-items: center;
+  border: 1px solid map.get($generated-colors, "primary");
+  color: map.get($generated-colors, "primary");
+  background-color: white;
+  outline: none;
+  font-family: $font-family-body;
+  font-weight: normal;
+
+  @at-root a#{&},button#{&} {
+    cursor: pointer;
+  }
+}
+
+%chip-body-base {
+  display: flex;
+  align-items: center;
+  font-size: 1rem;
+  line-height: 100%;
+}
+
+%chip-body-text-base {
+  text-align: left;
+  font-size: inherit;
+  line-height: inherit;
+  padding: 0 $base-padding * 2;
+}
+
+%chip-body-icon-base {
+  font-size: inherit;
+  line-height: inherit;
+}
+
+%chip-outlined-base {
+  background: transparent;
+}
+
+@mixin generate-chip-variant(
+  $variant-name:"",
+  $base-color:transparent,
+  $focus-outline-color:transparent,
+  $filled-hover-color:transparent,
+  $filled-hover-background-color:transparent,
+  $filled-active-color:transparent,
+  $filled-active-background-color:transparent,
+  $filled-disabled-color:transparent,
+  $filled-disabled-background-color:transparent,
+  $filled-disabled-active-color:transparent,
+  $filled-disabled-active-background-color:transparent,
+  $outlined-hover-color:transparent,
+  $outlined-hover-background-color:transparent,
+  $outlined-active-color:transparent,
+  $outlined-active-background-color:transparent,
+  $outlined-disabled-color:transparent,
+  $outlined-disabled-background-color:transparent,
+) {
+  $chip-root: &;
+
+  &--#{$variant-name} {
+    $chip-variant-root: &;
+
+    @at-root #{selector.unify($chip-root,$chip-variant-root)} {
+      // .chip.chip--primary
+
+      background: $base-color;
+      border-color: $base-color;
+
+      &:hover {
+        color: $filled-hover-color;
+        background: $filled-hover-background-color;
+        border-color: $filled-hover-background-color;
+      }
+
+      &:active {
+        background: $filled-active-color;
+        border-color: $filled-active-color;
+      }
+
+      @at-root #{selector.unify(&,#{$chip-root}--disabled)},&:disabled {
+        color: $filled-disabled-color;
+        background: $filled-disabled-background-color;
+        border-color: $filled-disabled-color;
+        cursor: initial;
+
+        @at-root #{selector.unify(&,#{$chip-root}--active)},&:active {
+          background: $filled-disabled-active-background-color;
+          border-color: $filled-disabled-active-background-color;
+          color: $filled-disabled-active-color;
+        }
+      }
+
+      @at-root #{selector.unify(&,#{$chip-root}--focus)},&:focus {
+        box-shadow: 0 0 0 3px $focus-outline-color;
+      }
+
+      @at-root #{selector.unify(&,#{$chip-root}--active)},&:active {
+        background-color: $filled-active-background-color;
+        color: $filled-active-color;
+      }
+
+      @at-root #{selector.unify(&,#{$chip-root}--inverted)} {
+        background: white;
+        border-color: white;
+        color: $base-color;
+
+        &:hover {
+          background: white;
+          border-color: white;
+          color: $filled-hover-color;
+        }
+
+        &:active {
+          background: white;
+          border-color: white;
+          color: $filled-active-color;
+        }
+
+        @at-root #{selector.unify(&,#{$chip-root}--disabled)},&:disabled {
+          background: white;
+          border-color: white;
+          color: $filled-disabled-color;
+        }
+
+        @at-root #{selector.unify(&,#{$chip-root}--focus)},&:focus {
+          box-shadow: 0 0 0 3px $focus-outline-color;
+        }
+      }
+    }
+
+    @at-root #{selector.unify($chip-root,selector.unify(#{$chip-root}--outlined,$chip-variant-root))} {
+      // .chip.chip--outlined.chip--primary
+
+      border-color: $base-color;
+      color: $base-color;
+      background: transparent;
+
+      &:hover {
+        color: $outlined-hover-color;
+        background: $outlined-hover-background-color;
+        border-color: $outlined-hover-color;
+      }
+
+      &:active {
+        color: $outlined-active-color;
+        background: $outlined-active-background-color;
+        border-color: $outlined-active-color;
+      }
+
+      @at-root #{selector.unify(&,#{$chip-root}--disabled)},&:disabled {
+        color: $outlined-disabled-color;
+        background: $outlined-disabled-background-color;
+        border-color: $outlined-disabled-color;
+        cursor: initial;
+      }
+    }
+
+    @at-root #{selector.unify(&,#{$chip-root}--readonly)} {
+      pointer-events: none;
+    }
+  }
+}
+
+@mixin generate-chip {
+  @extend %chip-base;
+
+  $chip-sizes: (
+    "s": "small"
+  );
+  $chip-root: &;
+
+  &__body {
+    $chip-body-root: &;
+    #{$chip-root} & {
+      // .chip .chip__body;
+
+      @extend %chip-body-base;
+
+      $chip-body-text-root: selector.nest(&, #{$chip-body-root}__text);
+      $chip-body-icon-root: selector.nest(&, #{$chip-body-root}__icon);
+
+      @at-root #{$chip-body-text-root} {
+        // .chip .chip__body .chip__body__text
+        @extend %chip-body-text-base;
+      }
+
+      @at-root #{$chip-body-icon-root} {
+        // .chip.chip__body .chip__body_icon
+        @extend %chip-body-icon-base;
+      }
+    }
+  }
+
+  &#{&} {
+    &--outlined {
+      @extend %chip-outlined-base;
+    }
+  }
+
+  @each $size-key,$size-value in $chip-sizes {
+    &#{&} {
+      &--#{$size-value} {
+        @extend %chip-size-#{$size-value}-base;
+      }
+    }
+  }
+}
+
+@include class-with-prefix(chip) {
+  @include generate-chip;
+
+  @each $color-name,$color-value in $colors {
+    $color-info: get-color-info($color-name);
+    $base-color: map.get($color-info, "background-color");
+
+    // filled
+    $filled-hover-color: white;
+    $filled-hover-background-color: map.get($generated-colors, "primary");
+    $filled-active-color: white;
+    $filled-active-background-color: map.get($generated-colors, "primary");
+    $filled-disabled-color: map.get($generated-colors, "#{$color-name}-80");
+    $filled-disabled-background-color: white;
+    $filled-disabled-active-color: white;
+    $filled-disabled-active-background-color: map.get($generated-colors, "#{$color-name}-80");
+
+    // outlined
+
+    $outlined-hover-color: map.get($generated-colors, "#{$color-name}-40");
+    $outlined-hover-background-color: map.get($generated-colors, "#{$color-name}-95");
+    $outlined-active-color: map.get($generated-colors, "#{$color-name}-30");
+    $outlined-active-background-color: map.get($generated-colors, "#{$color-name}-90");
+    $outlined-disabled-color: map.get($generated-colors, "#{$color-name}-80");
+    $outlined-disabled-background-color: transparent;
+    $focus-outline-color: map.get($generated-colors, "#{$color-name}-90");
+
+    @include generate-chip-variant(
+      $variant-name:$color-name,
+      $base-color:$base-color,
+      $filled-hover-color:$filled-hover-color,
+      $filled-hover-background-color:$filled-hover-background-color,
+      $filled-active-color:$filled-active-color,
+      $filled-active-background-color:$filled-active-background-color,
+      $filled-disabled-color:$filled-disabled-color,
+      $filled-disabled-background-color:$filled-disabled-background-color,
+      $filled-disabled-active-color:$filled-disabled-active-color,
+      $filled-disabled-active-background-color:$filled-disabled-active-background-color,
+      $outlined-hover-color:$outlined-hover-color,
+      $outlined-active-color:$outlined-active-color,
+      $outlined-disabled-color:$outlined-disabled-color,
+      $outlined-hover-background-color:$outlined-hover-background-color,
+      $outlined-active-background-color:$outlined-active-background-color,
+      $outlined-disabled-background-color:$outlined-disabled-background-color,
+      $focus-outline-color:$focus-outline-color,
+    );
+  }
+}

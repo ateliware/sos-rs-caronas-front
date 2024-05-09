@@ -1,0 +1,290 @@
+@use "sass:selector";
+@use "sass:map";
+
+$border-width: 1px;
+
+%list-base {
+  background: transparent;
+}
+
+%list-item-base {
+  display: flex;
+  align-items: center;
+  border: #{$border-width} solid transparent;
+  border-color: map.get($generated-colors, "neutral-70");
+  font-size: $font-size-xl;
+  line-height: $font-size-xl * 1.375;
+  outline: none;
+  padding: 0;
+  background: transparent;
+  width: 100%;
+  text-align: left;
+}
+
+%list-item-hover-base {
+  background: map.get($generated-colors, "neutral-95");
+}
+
+%list-item-active-base {
+  background: map.get($generated-colors, "neutral-30");
+  color: white;
+}
+
+%list-item-focus-base {
+  box-shadow: 0 0 0 3px map.get($generated-colors, "primary-90");
+  border-top-color: map.get($generated-colors, "neutral-70");
+  transform: scale(1);
+}
+
+%list-item-content-base {
+  padding: calc(#{$base-padding * 4} - #{$border-width});
+  color: map.get($generated-colors, "neutral-40");
+  font-size: inherit;
+  line-height: inherit;
+  font-family: #{$font-family-body};
+  flex: 1;
+}
+
+%list-item-content-title-base {
+  font-family: inherit;
+  font-weight: 700;
+  color: map.get($generated-colors, "neutral-20");
+  font-size: inherit;
+  line-height: inherit;
+}
+
+%list-item-content-text-base {
+  font-family: inherit;
+  color: inherit;
+  font-size: inherit;
+  line-height: inherit;
+}
+
+%list-item-addon-base {
+  padding-left: $base-padding * 4;
+  padding-right: $base-padding * 4;
+}
+
+%list-item-addon-icon-base {
+  color: inherit;
+  font-size: 1.5rem;
+  line-height: 1.5rem;
+  width: 1.5rem;
+  height: 1.5rem;
+}
+
+$list-item-variants: ();
+
+@each $color-name,$color in $colors {
+  $this-final-color: $color;
+
+  @if is-map($color) {
+    $this-final-color: map.get($color, "color");
+  }
+
+  $this-variant: (
+    "background-color":$this-final-color,
+    "border-color":$this-final-color,
+    "text-color":white,
+    "title-color":white,
+    "text-after-title-color":white,
+    "hover-background-color":map.get($generated-colors, "#{$color-name}-40"),
+    "active-background-color":map.get($generated-colors, "#{$color-name}-20"),
+    "focus-border-color":map.get($generated-colors, "#{$color-name}-90")
+  );
+  $list-item-variants: map.set($list-item-variants, #{$color-name}, $this-variant);
+}
+
+@include class-with-prefix(list) {
+  @extend %list-base;
+
+  $list-root: &;
+  $list-item-unnested: #{&}__item;
+  $list-item-root: selector.nest($list-root, $list-item-unnested);
+  $list-item-addon-unnested: #{$list-item-unnested}__addon;
+  $list-item-addon-root: selector.nest($list-item-root, $list-item-addon-unnested);
+  $list-item-addon-icon-unnested: #{$list-item-addon-unnested}__icon;
+  $list-item-addon-icon-root: selector.nest($list-item-addon-root, $list-item-addon-icon-unnested);
+  $list-item-content-unnested: #{$list-item-unnested}__content;
+  $list-item-content-root: selector.nest($list-item-root, $list-item-content-unnested);
+  $list-item-content-title-unnested: #{$list-item-content-unnested}__title;
+  $list-item-content-title-root: selector.nest($list-item-content-root, $list-item-content-title-unnested);
+  $list-item-content-text-unnested: #{$list-item-content-unnested}__text;
+  $list-item-content-text-root: selector.nest($list-item-content-root, $list-item-content-text-unnested);
+  /* stylelint-disable-next-line max-line-length */
+  $list-item-pressable-root: selector.nest(selector.unify($list-root, #{$list-root}--pressable), $list-item-unnested),selector.unify("button", $list-item-root),selector.unify("a", $list-item-root);
+  /* stylelint-disable-next-line max-line-length */
+  $list-item-hoverable-root: selector.nest(selector.unify($list-root, #{$list-root}--hoverable), $list-item-unnested),selector.unify("button", $list-item-root),selector.unify("a", $list-item-root),$list-item-pressable-root;
+
+  @at-root #{$list-item-hoverable-root} {
+    // .list.list--hoverable .list__item,
+    // .list button.list__item,
+    // .list a.list__item,
+    // .list.list--pressable .list__item,
+    // .list button.list__item,
+    // .list a.list__item
+
+    &:hover {
+      @extend %list-item-hover-base;
+    }
+
+    @each $variant-name, $variant-colors in $list-item-variants {
+      /* stylelint-disable-next-line max-line-length */
+      @at-root #{selector.replace(&,$list-item-unnested,selector.unify($list-item-unnested,#{$list-item-unnested}--#{$variant-name}))} {
+        &:hover {
+          // .list.list--hoverable .list__item.list__item--primary:hover,
+          // .list.list--pressable .list__item.list__item--primary:hover,
+          // .list button.list__item.list__item--primary:hover,
+          // .list a.list__item.list__item--primary:hover
+
+          background-color: map.get($variant-colors, "hover-background-color");
+          border-color: map.get($variant-colors, "hover-background-color");
+        }
+      }
+    }
+  }
+
+  @at-root #{$list-item-pressable-root} {
+    //  .list.list--pressable .list__item, .list button.list__item, .list a.list__item
+
+    &:active {
+      @extend %list-item-active-base;
+      #{$list-item-content-unnested} {
+        // .list.list--pressable .list__item:active .list__item__content,
+        // .list button.list__item:active .list__item__content,
+        // .list a.list__item:active .list__item__content
+
+        color: white;
+
+        #{$list-item-content-title-unnested} {
+          // .list .list__item.list__item--primary:active .list__item__content .list__item__content__title
+          color: inherit;
+
+          & + #{$list-item-content-text-unnested} {
+            // .list .list__item.list__item--primary:active .list__item__content
+            // .list__item__content__title + .list__item__content__text
+            color: inherit;
+          }
+        }
+      }
+    }
+
+    &:focus {
+      @extend %list-item-focus-base;
+    }
+
+    @each $variant-name, $variant-colors in $list-item-variants {
+      /* stylelint-disable-next-line max-line-length */
+      @at-root #{selector.replace(&,$list-item-unnested,selector.unify($list-item-unnested,#{$list-item-unnested}--#{$variant-name}))} {
+        &:active {
+          // .list.list--hoverable .list__item.list__item--primary:active,
+          // .list button.list__item.list__item--primary:active,
+          // .list a.list__item.list__item--primary:active
+          background-color: map.get($variant-colors, "active-background-color");
+          border-color: map.get($variant-colors, "active-background-color");
+        }
+
+        &:focus {
+          // .list.list--pressable .list__item.list__item--primary:focus,
+          // .list button.list__item.list__item--primary:focus,
+          // .list a.list__item.list__item--primary:focus
+          box-shadow: 0 0 0 3px map.get($variant-colors, "focus-border-color");
+          border-top-color: map.get($variant-colors, "border-color");
+        }
+      }
+    }
+  }
+
+  @at-root #{$list-item-root} {
+    @each $variant-name, $variant-colors in $list-item-variants {
+      @at-root #{selector.unify(&,#{&}--#{$variant-name})} {
+        // .list .list__item.list__item--primary
+        background-color: map.get($variant-colors, "background-color");
+        border-color: map.get($variant-colors, "border-color");
+        #{$list-item-content-unnested} {
+          // .list .list__item.list__item--primary .list__item__content
+          color: map.get($variant-colors, "text-color");
+
+          #{$list-item-content-title-unnested} {
+            // .list .list__item.list__item--primary .list__item__content .list__item__content__title
+            color: map.get($variant-colors, "title-color");
+
+            & + #{$list-item-content-text-unnested} {
+              // .list .list__item.list__item--primary .list__item__content
+              // .list__item__content__title + .list__item__content__text
+              color: map.get($variant-colors, "text-after-title-color");
+            }
+          }
+        }
+      }
+    }
+
+    // .list .list-item
+    @extend %list-item-base;
+
+    @at-root #{$list-item-addon-root} {
+      // .list .list__item .list__item__addon
+      @extend %list-item-addon-base;
+
+      @at-root #{$list-item-addon-icon-root} {
+        // .list .list__item .list__item__addon .list__item__addon__icon
+        @extend %list-item-addon-icon-base;
+      }
+
+      & + #{$list-item-content-unnested} {
+        // .list .list__item .list__item__addon + .list__item__content
+        padding-left: 0;
+      }
+    }
+
+    @at-root #{$list-item-content-root} {
+      // .list .list__item .list__item__content
+      @extend %list-item-content-base;
+
+      & + #{$list-item-addon-unnested} {
+        // .list .list__item .list__item__content + .list__item__addon
+        padding-left: 0;
+      }
+
+      @at-root #{$list-item-content-title-root} {
+        // .list .list__item .list__item__content .list__item__content__title
+        @extend %list-item-content-title-base;
+
+        & + #{$list-item-content-text-unnested} {
+          // .list .list__item .list__item__content .list__item__content__title + .list__item__content__text
+          margin-top: $base-margin * 2;
+          color: map.get($generated-colors, "neutral-60");
+        }
+      }
+
+      @at-root #{$list-item-content-text-root} {
+        // .list .list__item .list__item__content .list__item__content__text
+        @extend %list-item-content-text-base;
+      }
+    }
+
+    & + #{$list-item-unnested} {
+      // .list .list__item + list__item
+      border-top-color: transparent;
+    }
+
+    &:first-child {
+      // .list .list__item:first-child
+      border-radius: $base-border-radius * 2;
+      border-bottom-left-radius: 0;
+      border-bottom-right-radius: 0;
+    }
+
+    &:last-child {
+      // .list .list__item:last-child
+      border-radius: $base-border-radius * 2;
+      border-top-left-radius: 0;
+      border-top-right-radius: 0;
+    }
+
+    &:only-child {
+      // .list .list__item:only-child
+      border-radius: $base-border-radius * 2;
+    }
+  }
+}

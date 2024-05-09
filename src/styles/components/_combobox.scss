@@ -1,0 +1,40 @@
+.form-input {
+  &__container {
+    position: relative;
+  }
+
+  &__options {
+    flex-direction: row;
+    position: absolute;
+    border: 1px solid #d4d4d4;
+    border-bottom: none;
+    border-top: none;
+    z-index: 99;
+    top: 100%;
+    left: 0;
+    right: 0;
+  }
+
+  &__option {
+    padding: 0.5rem;
+    cursor: pointer;
+    width: 100%;
+    border-radius: 0;
+    justify-content: left;
+    background-color: white;
+    border-bottom: 1px solid #d4d4d4;
+
+    &:hover {
+      background-color: #f2f2f2;
+    }
+
+    &--active {
+      background-color: $secondary;
+      color: white;
+
+      &:hover {
+        background-color: $secondary;
+      }
+    }
+  }
+}

@@ -1,0 +1,374 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Table should render 1`] = `
+<div>
+  <div
+    class="table__filter col-md-12"
+  >
+    <div
+      class="d-flex justify-between"
+    >
+      <div
+        class="popover-wrapper"
+      >
+        <div
+          class="popover-trigger"
+        >
+          <div
+            class="d-flex align-items-center justify-center pl-s-300 pr-s-100"
+          >
+            <div
+              class="showColumnSelector d-flex align-items-center"
+              title="Exibir colunas"
+            >
+              <span
+                class="material-symbols-rounded"
+              >
+                visibility
+              </span>
+              <span
+                class="ml-s-100"
+              >
+                Colunas
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <table
+    class="table"
+    id=":r0:"
+  >
+    <thead
+      class="table__head"
+    >
+      <tr
+        class="table__row"
+      />
+    </thead>
+    <tbody
+      class="table__body"
+    />
+  </table>
+</div>
+`;
+
+exports[`Table should render with data 1`] = `
+<div>
+  <div
+    class="table__filter col-md-12"
+  >
+    <div
+      class="d-flex justify-between"
+    />
+  </div>
+  <table
+    class="table"
+    id=":r2:"
+  >
+    <thead
+      class="table__head"
+    >
+      <tr
+        class="table__row"
+      >
+        <th
+          class="table__cell"
+        >
+          <div
+            class="table__cell__content"
+          >
+            Id
+          </div>
+        </th>
+        <th
+          class="table__cell"
+        >
+          <div
+            class="table__cell__content"
+          >
+            Name
+          </div>
+        </th>
+        <th
+          class="table__cell"
+        >
+          <div
+            class="table__cell__content"
+          >
+            E-mail
+          </div>
+        </th>
+      </tr>
+    </thead>
+    <tbody
+      class="table__body"
+    >
+      <tr
+        class="table__row"
+        draggable="false"
+      >
+        <td
+          class="table__cell"
+        >
+          1
+        </td>
+        <td
+          class="table__cell"
+        >
+          John Doe
+        </td>
+        <td
+          class="table__cell"
+        >
+          john@ateliware.com
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+`;
+
+exports[`Table should render with data and selected 1`] = `
+<div>
+  <div
+    class="table__filter col-md-12"
+  >
+    <div
+      class="d-flex justify-between"
+    />
+  </div>
+  <table
+    class="table"
+    id=":r3:"
+  >
+    <thead
+      class="table__head"
+    >
+      <tr
+        class="table__row"
+      >
+        <th
+          class="table__cell table__cell--checkbox"
+        >
+          <div
+            class="table__cell__content"
+          >
+            <div
+              class="form-check"
+            >
+              <input
+                class="form-check-input"
+                id="checkbox"
+                type="checkbox"
+              />
+            </div>
+            <button
+              class="btn btn--icon-square btn--table-action ml-s-50"
+            >
+              <div
+                class="btn__body"
+              >
+                <span
+                  class="material-symbols-outlined btn__body__icon"
+                >
+                  arrow_drop_down
+                </span>
+              </div>
+            </button>
+          </div>
+        </th>
+        <th
+          class="table__cell"
+        >
+          <div
+            class="table__cell__content"
+          >
+            Id
+          </div>
+        </th>
+        <th
+          class="table__cell"
+        >
+          <div
+            class="table__cell__content"
+          >
+            Name
+          </div>
+        </th>
+        <th
+          class="table__cell"
+        >
+          <div
+            class="table__cell__content"
+          >
+            E-mail
+          </div>
+        </th>
+      </tr>
+    </thead>
+    <tbody
+      class="table__body"
+    >
+      <tr
+        class="table__row"
+        draggable="false"
+      >
+        <td
+          class="table__cell table__cell--checkbox"
+        >
+          <div
+            class="table__cell__content"
+          >
+            <div
+              class="form-check"
+            >
+              <input
+                checked=""
+                class="form-check-input"
+                id="checkbox"
+                type="checkbox"
+              />
+            </div>
+          </div>
+        </td>
+        <td
+          class="table__cell"
+        >
+          1
+        </td>
+        <td
+          class="table__cell"
+        >
+          John Doe
+        </td>
+        <td
+          class="table__cell table__cell--ellipsis !text-right !valign-middle"
+        >
+          <div
+            class="table__cell__content"
+          >
+            john@ateliware.com
+          </div>
+        </td>
+      </tr>
+      <tr
+        class="table__row"
+        draggable="false"
+      >
+        <td
+          class="table__cell table__cell--checkbox"
+        >
+          <div
+            class="table__cell__content"
+          >
+            <div
+              class="form-check"
+            >
+              <input
+                class="form-check-input"
+                id="checkbox"
+                type="checkbox"
+              />
+            </div>
+          </div>
+        </td>
+        <td
+          class="table__cell"
+        >
+          2
+        </td>
+        <td
+          class="table__cell"
+        >
+          Jane Doe
+        </td>
+        <td
+          class="table__cell table__cell--ellipsis !text-right !valign-middle"
+        >
+          <div
+            class="table__cell__content"
+          >
+            jane@ateliware.com
+          </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+`;
+
+exports[`Table should render with variants 1`] = `
+<div>
+  <div
+    class="table__filter col-md-12"
+  >
+    <div
+      class="d-flex justify-between"
+    >
+      <div
+        class="popover-wrapper"
+      >
+        <div
+          class="popover-trigger"
+        >
+          <div
+            class="d-flex align-items-center justify-center pl-s-300 pr-s-100"
+          >
+            <div
+              class="showColumnSelector d-flex align-items-center"
+              title="Exibir colunas"
+            >
+              <span
+                class="material-symbols-rounded"
+              >
+                visibility
+              </span>
+              <span
+                class="ml-s-100"
+              >
+                Colunas
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <table
+    class="table table--fixed table--hoverable custom"
+    id=":r1:"
+  >
+    <thead
+      class="table__head"
+    >
+      <tr
+        class="table__row"
+      >
+        <th
+          class="table__cell table__cell--checkbox"
+        >
+          <div
+            class="table__cell__content"
+          >
+            <div
+              class="form-check"
+            >
+              <input
+                class="form-check-input"
+                id="checkbox"
+                type="checkbox"
+              />
+            </div>
+          </div>
+        </th>
+      </tr>
+    </thead>
+    <tbody
+      class="table__body"
+    />
+  </table>
+</div>
+`;

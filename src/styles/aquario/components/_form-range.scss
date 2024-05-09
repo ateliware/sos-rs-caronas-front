@@ -1,0 +1,118 @@
+/* stylelint-disable no-descending-specificity */
+// TODO: remover comentario sobre no-descending-specificity e retaforar o código para remover os problemas
+
+@use "sass:map";
+
+$border-width: $default-size * 0.252;
+$outline-width: $default-size * 0.752;
+
+@mixin default-thumb {
+  $size: $default-size * 4;
+
+  appearance: none;
+  width: $size;
+  height: $size;
+  margin-top: -$default-size;
+  background-color: map.get($generated-colors, "primary");
+  border-radius: 50%;
+}
+
+@mixin default-thumb-focus {
+  border: $border-width solid white;
+  outline: $outline-width solid map.get($generated-colors, "primary-90");
+}
+
+@mixin default-thumb-active {
+  border: $border-width solid white;
+  background-color: map.get($generated-colors, "primary-70");
+}
+
+@mixin default-thumb-disabled {
+  border: $border-width solid map.get($generated-colors, "neutral-70");
+  background-color: map.get($generated-colors, "neutral-70");
+}
+
+@mixin default-track {
+  $height: $default-size * 2;
+
+  cursor: pointer;
+  height: $height;
+  background-color: #e4e4e7;
+  border-color: transparent;
+  border-radius: $height;
+}
+
+.form-range {
+  appearance: none;
+
+  &:focus {
+    outline: 0;
+
+    // Pseudo-elements must be split across multiple rulesets to have an effect.
+    &::-webkit-slider-thumb {
+      @include default-thumb-focus;
+    }
+
+    &::-moz-range-thumb {
+      @include default-thumb-focus;
+    }
+  }
+
+  &:hover {
+    &:active {
+      &::-webkit-slider-thumb {
+        @include default-thumb-active;
+      }
+
+      &::-moz-range-thumb {
+        @include default-thumb-active;
+      }
+    }
+
+    &:disabled {
+      /* stylelint-disable-next-line scss/at-extend-no-missing-placeholder */
+      @extend .opacity-medium;
+
+      pointer-events: none;
+
+      &::-webkit-slider-thumb {
+        @include default-thumb-disabled;
+      }
+
+      &::-moz-range-thumb {
+        @include default-thumb-disabled;
+      }
+    }
+  }
+
+  &::-webkit-slider-thumb {
+    @include default-thumb;
+  }
+
+  &::-moz-range-thumb {
+    @include default-thumb;
+  }
+
+  &::-webkit-slider-runnable-track {
+    @include default-track;
+  }
+
+  &::-moz-range-track {
+    @include default-track;
+  }
+
+  &:disabled {
+    /* stylelint-disable-next-line scss/at-extend-no-missing-placeholder */
+    @extend .opacity-medium;
+
+    pointer-events: none;
+
+    &::-webkit-slider-thumb {
+      @include default-thumb-disabled;
+    }
+
+    &::-moz-range-thumb {
+      @include default-thumb-disabled;
+    }
+  }
+}

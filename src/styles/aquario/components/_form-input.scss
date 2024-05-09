@@ -1,0 +1,461 @@
+@use "sass:map";
+@use "sass:selector";
+
+%form-input-addon-icon-base {
+  $icon-size: 1.5rem;
+
+  font-size: $icon-size !important;
+  width: $icon-size;
+  height: $icon-size;
+
+  svg {
+    width: $icon-size;
+    height: $icon-size;
+  }
+}
+
+%form-input-addon-text-base {
+  font-size: $font-size-xl;
+  line-height: 150%;
+  font-family: inherit;
+  color: map.get($generated-colors, "neutral-30") !important;
+}
+
+$form-input-horizontal-padding: $base-padding * 3;
+$form-input-vertical-padding: $base-padding * 2;
+$form-input-large-vertical-padding: 12px;
+$form-input-small-vertical-padding: 4px;
+
+%form-input-base {
+  @extend %form-input-addon-text-base;
+
+  display: block;
+  position: relative;
+  background: transparent;
+  outline: none;
+  border: none;
+  border-radius: $base-border-radius * 2;
+  padding: $form-input-vertical-padding $form-input-horizontal-padding;
+  width: 100%;
+  overflow: hidden;
+  height: fit-content;
+  white-space: nowrap;
+}
+
+@mixin form-input-sizes-generator() {
+  &#{&} {
+    &--large {
+      padding-top: $form-input-large-vertical-padding;
+      padding-bottom: $form-input-large-vertical-padding;
+    }
+
+    &--small {
+      padding-top: $form-input-small-vertical-padding;
+      padding-bottom: $form-input-small-vertical-padding;
+    }
+  }
+}
+
+%form-input-disabled-base {
+  color: map.get($generated-colors, "neutral-70") !important;
+  background: map.get($generated-colors, "neutral-95");
+  opacity: 1;
+
+  @include input-placeholder {
+    color: map.get($generated-colors, "neutral-70") !important;
+  }
+}
+
+%form-input-container-base {
+  background: transparent;
+  white-space: nowrap;
+}
+
+@mixin form-input-border($border-color,$outline-color:transparent,$important:false) {
+  @if $important {
+    box-shadow: inset $border-color 0 0 0 1px, $outline-color 0 0 0 3px !important;
+  } @else {
+    box-shadow: inset $border-color 0 0 0 1px, $outline-color 0 0 0 3px;
+  }
+}
+
+@mixin generate-form-input(
+  $active-border-color:transparent,
+  $active-outline-color:transparent,
+  $active-caption-color:map.get($generated-colors, "neutral-50"),
+  $focus-border-color:transparent,
+  $focus-outline-color:transparent,
+  $disabled-border-color:transparent,
+  $disabled-outline-color:transparent,
+  $disabled-text-color:map.get($generated-colors, "neutral-50"),
+  $caption-text-color:map.get($generated-colors, "neutral-50")
+) {
+  $input-root: &;
+  $input-container-root: #{&}__container;
+  $input-label-unnested: #{&}__label;
+  $input-addons-root-unnested: #{&}__addons;
+  $input-addons-root: selector.nest($input-container-root, $input-addons-root-unnested);
+  $input-addons-text-root-unnested: #{$input-addons-root-unnested}__text;
+  $input-addons-text-root: selector.nest($input-addons-root, $input-addons-text-root-unnested);
+  $input-addons-icon-root-unnested: #{$input-addons-root-unnested}__icon;
+  $input-addons-icon-root: selector.nest($input-addons-root, $input-addons-icon-root-unnested);
+  $input-addons-container-root-unnested: #{$input-addons-root-unnested}__container;
+  $input-addons-container-root: selector.nest($input-container-root, $input-addons-container-root-unnested);
+
+  @extend %form-input-base;
+  @include form-input-sizes-generator;
+
+  &:not(input) {
+    color: map.get($generated-colors, "neutral-50") !important;
+  }
+
+  @include input-placeholder {
+    font-size: $font-size-xl;
+    line-height: 150%;
+    color: map.get($generated-colors, "neutral-50");
+    font-family: inherit;
+    opacity: 1;
+  }
+
+  @include form-input-border($active-border-color,$active-outline-color);
+
+  @at-root #{$input-container-root} {
+    @extend %form-input-container-base;
+
+    @at-root #{selector.unify(&,#{&}--focus)} #{$input-root},
+    #{selector.unify($input-root,#{$input-root}--focus)},
+    #{selector.unify(":focus",$input-root)} {
+      // .form-input__container.form-input__container--focus .form-input,
+      // .form-input.form-input--focus,
+      // .form-input:focus
+      @include form-input-border($focus-border-color,$focus-outline-color,true);
+    }
+
+    @at-root #{selector.unify(&,#{&}--error)} #{$input-root},
+    #{selector.unify($input-root,#{$input-root}--error)} {
+      // .form-input__container.form-input__container--error .form-input,
+      // .form-input.form-input--error
+      @include form-input-border(map.get($generated-colors, "negative"));
+    }
+
+    @at-root #{selector.unify(&,#{&}--error)} #{$input-root}__caption,
+    #{selector.unify(#{$input-root}__caption,#{$input-root}__caption--error)} {
+      // .form-input__container.form-input__container--error .form-input__caption,
+      // .form-input__caption.form-input__caption--error
+      color: map.get($generated-colors, "negative") !important;
+    }
+
+    @at-root #{selector.unify(&,#{&}--disabled)} #{$input-root},
+    #{selector.unify($input-root,#{$input-root}--disabled)},
+    #{selector.unify(":disabled",$input-root)} {
+      // .form-input__container.form-input__container--disabled .form-input,
+      // .form-input.form-input--disabled,
+      // .form-input:disabled
+      @extend %form-input-disabled-base;
+      @include form-input-border($disabled-border-color,$disabled-outline-color,true);
+    }
+
+    @at-root #{selector.unify(&,#{&}--float-label)} {
+      // .form-input__container.form-input__container--float-label
+
+      background: white;
+      position: relative;
+
+      $height: 2rem;
+      $label-padding: 2px;
+
+      #{$input-label-unnested} {
+        // form-input__container.form-input__container--float-label
+        // .form-input__label
+
+        position: absolute;
+        font-size: 0.75rem;
+        transition: all 0.5s ease-out, left  0.35s 0.15s ease-out;
+        margin-left: calc(#{$form-input-horizontal-padding} - #{$label-padding});
+        z-index: 2;
+        background: rgba(255 255 255 / 100%);
+        top: -6px;
+        left: 0;
+        padding: 0 $label-padding;
+        margin-bottom: 0;
+        line-height: 1em;
+        color: map.get($generated-colors, "neutral-30");
+        transform: scale(1);
+      }
+
+      #{$input-root} {
+        margin-top: 0.75rem;
+        z-index: 1;
+
+        @include input-placeholder {
+          opacity: 1;
+          transition: opacity 0.5s 0.5s ease-out;
+          color: map.get($generated-colors, "neutral-90");
+        }
+      }
+
+      &:not(:focus-within) {
+        $addons-container-not-focused: selector.nest(&, $input-addons-container-root-unnested);
+        /* stylelint-disable-next-line max-line-length */
+        $addons-container-not-focused-empty: selector.unify($addons-container-not-focused, #{$addons-container-not-focused}--empty);
+        $addons-container-not-focused-empty-input: selector.nest($addons-container-not-focused-empty);
+        $empty-input-without-addons: selector.unify(":placeholder-shown", selector.nest(&, $input-root));
+        /* stylelint-disable-next-line max-line-length */
+        $input-addons-container-large: selector.unify($addons-container-not-focused-empty, #{$addons-container-not-focused}--large);
+        /* stylelint-disable-next-line max-line-length */
+        $input-large: selector.unify(":placeholder-shown", selector.unify(selector.nest(&, $input-root), #{$input-root}--large));
+        /* stylelint-disable-next-line max-line-length */
+        $input-addons-container-small: selector.unify($addons-container-not-focused-empty, #{$addons-container-not-focused}--small);
+        /* stylelint-disable-next-line max-line-length */
+        $input-small: selector.unify(":placeholder-shown", selector.unify(selector.nest(&, $input-root), #{$input-root}--small));
+
+        @at-root #{$input-addons-container-large,$input-large} {
+          & + #{$input-label-unnested} {
+            // .form-input__container.form-input__container--float-label:not(:focus-within)
+            /* stylelint-disable-next-line max-line-length */
+            // .form-input__addons__container.form-input__addons__container--empty.form-input__addons__container--large + .form-input__label,
+            /* stylelint-disable-next-line max-line-length */
+            // .form-input__container.form-input__container--float-label:not(:focus-within) .form-input.form-input--large:placeholder-shown + .form-input__label
+            padding-top: $form-input-large-vertical-padding;
+            padding-bottom: $form-input-large-vertical-padding;
+          }
+        }
+
+        @at-root #{$input-addons-container-small,$input-small} {
+          & + #{$input-label-unnested} {
+            // .form-input__container.form-input__container--float-label:not(:focus-within)
+            /* stylelint-disable-next-line max-line-length */
+            // .form-input__addons__container.form-input__addons__container--empty.form-input__addons__container--small + .form-input__label,
+            /* stylelint-disable-next-line max-line-length */
+            // .form-input__container.form-input__container--float-label:not(:focus-within) .form-input.form-input--small:placeholder-shown + .form-input__label
+            padding-top: $form-input-small-vertical-padding;
+            padding-bottom: $form-input-small-vertical-padding;
+          }
+        }
+
+        /* stylelint-disable-next-line max-line-length */
+        @at-root #{$empty-input-without-addons}, #{selector.nest($addons-container-not-focused-empty-input,$input-root)} {
+          // .form-input__container.form-input__container--float-label:not(:focus-within) .form-input:placeholder-shown,
+          // .form-input__container.form-input__container--float-label:not(:focus-within)
+          // .form-input__addons__container.form-input__addons__container--empty .form-input
+
+          @include input-placeholder {
+            opacity: 0;
+            transition: opacity 0.5s 0s ease-out;
+          }
+        }
+
+        @at-root #{$empty-input-without-addons}, #{$addons-container-not-focused-empty-input} {
+          // .form-input__container.form-input__container--float-label:not(:focus-within) .form-input:placeholder-shown,
+          // .form-input__container.form-input__container--float-label:not(:focus-within)
+          // .form-input__addons__container.form-input__addons__container--empty
+
+          & + #{$input-label-unnested} {
+            // .form-input__container.form-input__container--float-label:not(:focus-within)
+            // .form-input:placeholder-shown + .form-input__label,
+            // .form-input__container.form-input__container--float-label:not(:focus-within)
+            // .form-input__addons__container.form-input__addons__container--empty + .form-input__label
+
+            @extend %form-input-addon-text-base;
+
+            pointer-events: none;
+            background: rgba(255 255 255 / 0%);
+            top: 0;
+            left: 0;
+            color: map.get($generated-colors, "neutral-50");
+            padding: $form-input-vertical-padding $label-padding;
+            transition: all  0.35s 0.15s ease-out, left 0.25s ease-out;
+          }
+        }
+      }
+
+      #{$input-addons-container-root-unnested} {
+        margin-top: 0.75rem;
+        #{$input-root} {
+          margin-top: 0;
+        }
+      }
+    }
+  }
+
+  @at-root #{$input-label-unnested} {
+    @extend %form-label-base;
+
+    margin-bottom: $base-margin * 2;
+    color: $caption-text-color;
+  }
+
+  &__caption {
+    @extend %form-caption-base;
+
+    color: $active-caption-color;
+  }
+
+  @at-root #{$input-addons-root} {
+    @at-root #{$input-addons-container-root} {
+      // .form-input__container .form-input__addons__container
+
+      @extend %form-input-base;
+
+      padding: 0;
+      display: flex;
+      align-items: center;
+
+      @include form-input-border($active-border-color,$active-outline-color);
+
+      #{$input-root} {
+        // .form-input__container .form-input__addons__container .form-input
+
+        box-shadow: none !important;
+
+        &:disabled {
+          // .form-input__container .form-input__addons__container .form-input:disabled
+
+          box-shadow: none !important;
+          background: transparent !important;
+        }
+
+        @at-root #{selector.unify($input-container-root,#{$input-container-root}--focus)},
+        #{selector.unify($input-container-root,#{$input-container-root}--disabled)} {
+          // .form-input__container.form-input__container--focus, .form-input__container.form-input__container--disabled
+
+          #{$input-addons-container-root} {
+            #{$input-root} {
+              // .form-input__container.form-input__container--focus .form-input__container
+              // .form-input__addons__container .form-input,
+              // .form-input__container.form-input__container--disabled .form-input__container
+              // .form-input__addons__container .form-input
+
+              box-shadow: none !important;
+              background: transparent !important;
+            }
+          }
+        }
+
+        @at-root #{$input-container-root} {
+          &--disabled {
+            // .form-input__container.form-input__container--disabled
+
+            @at-root #{selector.nest(&,$input-addons-container-root-unnested)} {
+              // .form-input__container.form-input__container--disabled .form-input__addons__container
+
+              @extend %form-input-disabled-base;
+              @include form-input-border($disabled-border-color,$disabled-outline-color,true);
+
+              @include class-with-prefix(btn) {
+                &--outlined {
+                  border-color: $disabled-border-color !important;
+                }
+              }
+            }
+          }
+
+          &--error {
+            // .form-input__container.form-input__container--error
+
+            @at-root #{selector.nest(&,$input-addons-container-root-unnested)} {
+              // .form-input__container.form-input__container--error .form-input__addons__container
+
+              @include form-input-border(map.get($generated-colors, "negative"));
+            }
+          }
+
+          &--focus,
+          &:focus-within {
+            // .form-input__container--focus, .form-input__container:focus-within
+
+            @at-root #{selector.nest(&,$input-addons-container-root-unnested)} {
+              // .form-input__container--focus .form-input__addons__container,
+              // .form-input__container:focus-within .form-input__addons__container
+
+              @include form-input-border($focus-border-color,$focus-outline-color,true);
+            }
+          }
+        }
+      }
+
+      #{$input-addons-text-root-unnested} {
+        // .form-input__container .form-input__addons__container .form-input__addons__text
+        @extend %form-input-addon-text-base;
+      }
+      #{$input-addons-icon-root-unnested} {
+        // .form-input__container .form-input__addons__container .form-input__addons__icon
+        @extend %form-input-addon-icon-base;
+      }
+
+      #{$input-addons-root-unnested}__wrapper {
+        // .form-input__container .form-input__addons__container .form-input__addons__wrapper
+
+        display: flex;
+
+        & + #{$input-addons-root-unnested}__wrapper {
+          @include class-with-prefix(btn) {
+            border-left: none;
+          }
+        }
+
+        @at-root #{selector.unify(&,#{&}--left)} {
+          //  .form-input__container .form-input__addons__container
+          //  .form-input__addons__wrapper.form-input__addons__wrapper--left
+
+          @at-root #{selector.nest(&,$input-addons-text-root-unnested)},
+          #{selector.nest(&,$input-addons-icon-root-unnested)} {
+            // .form-input__container .form-input__addons__container
+            // .form-input__addons__wrapper.form-input__addons__wrapper--left
+            // .form-input__addons__text (.form-input__addons__icon)
+
+            margin-left: $form-input-horizontal-padding;
+          }
+
+          @include class-with-prefix(btn) {
+            border-top-right-radius: 0;
+            border-bottom-right-radius: 0;
+          }
+        }
+
+        @at-root #{selector.unify(&,#{&}--center)} {
+          @at-root #{selector.nest(&,$input-addons-text-root-unnested)},
+          #{selector.nest(&,$input-addons-icon-root-unnested)} {
+            // .form-input__container .form-input__addons__container
+            // .form-input__addons__wrapper.form-input__addons__wrapper--center
+            // .form-input__addons__text (.form-input__addons__icon)
+
+            margin-left: $form-input-horizontal-padding;
+            margin-right: $form-input-horizontal-padding;
+          }
+
+          @include class-with-prefix(btn) {
+            border-radius: 0;
+          }
+        }
+
+        @at-root #{selector.unify(&,#{&}--right)} {
+          @at-root #{selector.nest(&,$input-addons-text-root-unnested)},
+          #{selector.nest(&,$input-addons-icon-root-unnested)} {
+            // .form-input__container .form-input__addons__container
+            // .form-input__addons__wrapper.form-input__addons__wrapper--right
+            // .form-input__addons__text (.form-input__addons__icon)
+
+            margin-right: $form-input-horizontal-padding;
+          }
+
+          @include class-with-prefix(btn) {
+            border-top-left-radius: 0;
+            border-bottom-left-radius: 0;
+          }
+        }
+      }
+    }
+  }
+}
+
+@include class-with-prefix(form-input) {
+  @include generate-form-input(
+    $active-border-color:map.get($generated-colors,"neutral-70"),
+    $disabled-border-color:map.get($generated-colors,"neutral-80"),
+    $disabled-text-color:map.get($generated-colors,"neutral-70"),
+    $focus-outline-color:map.get($generated-colors,"primary-90"),
+    $focus-border-color:map.get($generated-colors,"primary-70"),
+    $caption-text-color:map.get($generated-colors,"neutral-30")
+  );
+}

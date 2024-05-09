@@ -1,0 +1,179 @@
+/* stylelint-disable no-descending-specificity */
+// TODO: remover comentario sobre no-descending-specificity e retaforar o código para remover os problemas
+@use "sass:map";
+@import "../functions";
+
+$border-width: $default-size * 0.252;
+$outline-width: $default-size * 0.752;
+
+// Check/Radio
+
+@mixin check-icon($stroke: "white") {
+  background-image: url('data:image/svg+xml;utf8,<svg width="10" height="8" viewBox="0 0 10 8" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M1 3.82842L3.81954 6.64797L8.64796 1.81954" stroke="#{str-replace(#{$stroke}, "#", "%23")}" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>');
+  background-repeat: no-repeat;
+}
+
+@mixin check-indeterminate-icon($stroke: "white") {
+  $stroke: str-replace($stroke, "#", "%23");
+
+  background-image: url('data:image/svg+xml;utf8,<svg width="10" height="2" viewBox="0 0 10 2" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M1 1H4H9" stroke="#{str-replace(#{$stroke}, "#", "%23")}" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>');
+  background-repeat: no-repeat;
+}
+
+@mixin radio-icon($fill: "white") {
+  background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="-4 -4 8 8"><circle r="2" fill="#{str-replace(#{$fill}, "#", "%23")}"/></svg>');
+  background-repeat: no-repeat;
+}
+
+.form-check {
+  /* stylelint-disable-next-line scss/at-extend-no-missing-placeholder */
+  @extend .d-flex;
+  /* stylelint-disable-next-line scss/at-extend-no-missing-placeholder */
+  @extend .align-items-center;
+
+  flex-direction: row;
+  padding: 0;
+  gap: $default-size * 2;
+
+  $size: $default-size * 4;
+
+  & &-input {
+    appearance: none;
+    width: $size;
+    height: $size;
+    box-sizing: border-box;
+    border: $border-width solid map.get($generated-colors, "neutral-80");
+
+    &[type="checkbox"] {
+      border-radius: $base-border-radius;
+    }
+
+    &[type="radio"] {
+      border-radius: 50%;
+    }
+
+    &:focus {
+      border: $border-width solid map.get($generated-colors, "primary-70");
+      outline: $outline-width solid map.get($generated-colors, "primary-90");
+
+      &[type="checkbox"] {
+        border-radius: $base-border-radius;
+      }
+
+      &[type="radio"] {
+        border-radius: 50%;
+      }
+    }
+
+    &:checked {
+      &[type="checkbox"] {
+        @include check-icon;
+      }
+
+      &[type="radio"] {
+        @include radio-icon;
+      }
+
+      /* stylelint-disable-next-line scss/at-extend-no-missing-placeholder */
+      @extend .bg-negative;
+
+      background-position: center;
+      width: $size;
+      height: $size;
+
+      &:disabled {
+        /* stylelint-disable-next-line scss/at-extend-no-missing-placeholder */
+        @extend .opacity-medium;
+      }
+    }
+
+    &:hover {
+      cursor: pointer;
+
+      &:disabled {
+        cursor: default;
+      }
+    }
+
+    &:indeterminate {
+      @include check-indeterminate-icon;
+      /* stylelint-disable-next-line scss/at-extend-no-missing-placeholder */
+      @extend .bg-negative;
+
+      background-position: center;
+      width: $size;
+      height: $size;
+
+      &:disabled {
+        /* stylelint-disable-next-line scss/at-extend-no-missing-placeholder */
+        @extend .opacity-medium;
+      }
+    }
+
+    &:disabled {
+      /* stylelint-disable-next-line scss/at-extend-no-missing-placeholder */
+      @extend .opacity-medium;
+    }
+
+    &[hover],
+    &:hover {
+      ~ .form-check-label {
+        cursor: pointer;
+      }
+    }
+
+    &[disabled],
+    &:disabled {
+      ~ .form-check-label {
+        /* stylelint-disable-next-line scss/at-extend-no-missing-placeholder */
+        @extend .opacity-medium;
+
+        cursor: default;
+      }
+    }
+  }
+
+  .form-check-label {
+    /* stylelint-disable-next-line scss/at-extend-no-missing-placeholder */
+    @extend .form-label;
+  }
+}
+
+// Switch
+
+@mixin switch-icon($fill: "white") {
+  background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="-4 -4 8 8"><circle r="3" fill="#{str-replace(#{$fill}, "#", "%23")}"/></svg>');
+  background-repeat: no-repeat;
+}
+
+.form-switch {
+  $width: $default-size * 8;
+  $height: $default-size * 4;
+
+  .form-check-input {
+    @include switch-icon(map.get($generated-colors, "neutral-70"));
+
+    background-position: left;
+    width: $width;
+    height: $height;
+    border-radius: 100px !important;
+    transition: background-position 0.15s ease-in-out;
+
+    &:focus {
+      @include switch-icon(map.get($generated-colors, "primary-70"));
+
+      border: $border-width solid map.get($generated-colors, "primary-70");
+      outline: $outline-width solid map.get($generated-colors, "primary-90");
+    }
+
+    &:checked {
+      &[type="checkbox"] {
+        @include switch-icon;
+      }
+
+      background-position: right !important;
+      width: $width !important;
+      height: $height !important;
+    }
+  }
+}

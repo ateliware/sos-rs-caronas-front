@@ -1,0 +1,125 @@
+@use "sass:list";
+@use "sass:color";
+@use "sass:math";
+@use "sass:map";
+@use "sass:string";
+
+@function is-map($var) {
+  @return type-of($var) == "map";
+}
+
+@function map-length($map) {
+  $count: 0;
+
+  @each $key, $color in $map {
+    $count: $count + 1;
+  }
+
+  @return $count;
+}
+
+@function map-to-keys-list($map) {
+  $keys: ();
+
+  @each $key, $val in $map {
+    $keys: list.append($keys, $key);
+  }
+
+  @return $keys;
+}
+
+@function anothers-keys($keys, $excluded-key) {
+  $final-keys: ();
+
+  @each $key in $keys {
+    @if $key != $excluded-key {
+      $final-keys: list.append($final-keys, $key);
+    }
+  }
+
+  @return $final-keys;
+}
+
+@function difference-between($a, $b) {
+  @return math.abs(math.abs($a) - math.abs($b));
+}
+
+@function is-dark($color) {
+  @return color.lightness($color) < 50%;
+}
+
+@function contrasts-on(
+  $foreground-color,
+  $background-color,
+  $minimun-contrast: 45%
+) {
+  $background-lightness: color.lightness($background-color);
+  $foreground-lightness: color.lightness($foreground-color);
+  $lightness-difference: difference-between(
+    $background-lightness,
+    $foreground-lightness
+  );
+
+  @if $lightness-difference < $minimun-contrast {
+    @if is-dark($background-color) {
+      @return color.change(
+        $foreground-color,
+        $lightness: math.min($background-lightness + $minimun-contrast, 100%)
+      );
+    } @else {
+      @return color.change(
+        $foreground-color,
+        $lightness: math.max($background-lightness - $minimun-contrast, 0%)
+      );
+    }
+  }
+
+  @return $foreground-color;
+}
+
+@function get-color-info($key) {
+  $color: map.get($colors, $key);
+  $base-color: null;
+  $color-lightness-step: null;
+  $omit-steps-generation: false;
+  $color-steps: null;
+
+  @if is-map($color) {
+    $base-color: map.get($color, "color");
+    $color-lightness-step: map.get($color, "lightness-step");
+    $omit-steps-generation: map.get($color, "omit-steps-generation");
+    $color-steps: map.get($color, "stepsValues");
+  } @else {
+    $base-color: $color;
+    $color-lightness-step: "50";
+  }
+
+  @return (
+    color: $base-color,
+    lightness-step: $color-lightness-step,
+    omit-steps-generation: $omit-steps-generation,
+    colorSteps: $color-steps
+  );
+}
+
+@function str-replace($string, $search, $replace: "") {
+  $index: string.index($string, $search);
+
+  @if $index {
+    @return str-slice($string, 1, $index - 1) + $replace + str-replace(
+      str-slice($string, $index + str-length($search)),
+      $search,
+      $replace
+    );
+  }
+
+  @return $string;
+}
+
+@function name-with-prefix($name:"") {
+  @if $aquario-prefix {
+    @return #{$aquario-prefix}-#{$name};
+  } @else {
+    @return $name;
+  }
+}

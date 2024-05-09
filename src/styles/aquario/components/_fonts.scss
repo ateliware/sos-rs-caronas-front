@@ -1,0 +1,6 @@
+@use 'sass:map';
+@use 'sass:selector';
+
+body {
+  color: map.get($generated-colors, 'black');
+}

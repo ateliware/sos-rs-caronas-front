@@ -1,0 +1,27 @@
+FROM node:16.14-alpine
+
+WORKDIR /app
+
+COPY . .
+
+RUN npm cache clean --force
+RUN npm install
+RUN npm run build
+ENV PORT 4000
+ENV NODE_ENV production
+
+ARG REACT_APP_GOOGLE_MAPS_KEY
+
+COPY sshd_config /etc/ssh/
+COPY entrypoint.sh ./
+
+# Start and enable SSH (Azure)
+RUN apk add openssh \
+    && echo "root:Docker!" | chpasswd \
+    && chmod +x ./entrypoint.sh \
+    && cd /etc/ssh/ \
+    && ssh-keygen -A
+
+EXPOSE 4000 2222
+
+ENTRYPOINT [ "./entrypoint.sh" ]

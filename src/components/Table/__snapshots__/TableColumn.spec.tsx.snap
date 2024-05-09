@@ -1,0 +1,55 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`TableColumn should render 1`] = `
+<div>
+  <table>
+    <thead>
+      <tr>
+        <th
+          class="table__cell"
+        >
+          <div
+            class="table__cell__content"
+          >
+            Name
+          </div>
+        </th>
+      </tr>
+    </thead>
+  </table>
+</div>
+`;
+
+exports[`TableColumn should render with variants 1`] = `
+<div>
+  <table>
+    <thead>
+      <tr>
+        <th
+          class="table__cell custom"
+          style="width: 100px;"
+        >
+          <div
+            class="table__cell__content justify-center text-center"
+          >
+            Name
+            <button
+              class="btn btn--icon-square btn--table-action ml-s-100"
+            >
+              <span
+                class="btn__body"
+              >
+                <span
+                  class="btn__body__icon material-symbols-rounded"
+                >
+                  more_horiz
+                </span>
+              </span>
+            </button>
+          </div>
+        </th>
+      </tr>
+    </thead>
+  </table>
+</div>
+`;

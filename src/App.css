@@ -1,0 +1,55 @@
+body {
+  margin: 0;
+  overflow: hidden;
+}
+
+h2 {
+  margin-top: 20px;
+  margin-bottom: 10px;
+}
+
+.gap > * + *:not(aside) {
+  margin-top: 10px;
+}
+
+.App {
+  min-height: 100vh;
+  overflow: hidden;
+}
+
+.App-logo {
+  height: 10vmin;
+  margin: 1vmin;
+}
+
+.App-header {
+  text-align: center;
+  display: flex;
+  padding: 0 60px;
+  font-size: calc(10px + 2vmin);
+  position: fixed;
+  background-color: #f4f3f4;
+  left: 0;
+  right: 0;
+  height: 92px;
+  z-index: 2;
+}
+
+.App-header > * {
+  flex: 1;
+  display: flex;
+  align-items: center;
+}
+
+.App-header > .header--left {
+  justify-content: flex-start;
+}
+
+.App-header > .header--center {
+  flex: 2;
+  justify-content: center;
+}
+
+.App-header > .header--right {
+  justify-content: flex-end;
+}
