@@ -22,7 +22,6 @@ export default function SignupPage() {
   }, [user, navigate]);
 
   const onSubmit = ((data: {
-    email: string;
     password: string;
     fullName: string;
     birthDate: string;
@@ -31,7 +30,7 @@ export default function SignupPage() {
     state: string;
     city: string;
   }) => {
-    login(data.email.toLowerCase(), data.password).catch(
+    login(data.cpf.toLowerCase(), data.password).catch(
       handleErrorForm(setError)
     );
   }) as SubmitHandler<FieldValues>;

@@ -90,7 +90,7 @@ export default function LoginPage() {
 
                 <a
                   className="mt-s-200 font-s-150 font-weight-bold line-height-medium text-primary"
-                  href="/register"
+                  href="/signup"
                 >
                   Cadastrar-se
                 </a>
