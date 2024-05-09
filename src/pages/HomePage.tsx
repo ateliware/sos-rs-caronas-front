@@ -1,7 +1,9 @@
 import '@styles/index.scss';
 import '../App.css';
+import logo from '@assets/logo-small.svg';
 
-import { Item, ItemList, PageHeader, Tab } from '@components';
+import { Icon, Item, ItemList, PageHeader, Tab } from '@components';
+import { useAuthContext } from '@contexts/AuthProvider';
 
 function HomePage() {
   const tabs = [
@@ -41,10 +43,20 @@ function HomePage() {
       component: <div>Conteúdo de Caronas</div>,
     },
   ];
+  const { logout, user } = useAuthContext();
 
   return (
     <>
-      <PageHeader title="CaronaSOS" />
+      <div className="p-s-300 align-items-center">
+        <PageHeader
+          logo={logo}
+          actions={
+            <a onClick={() => logout()}>
+              <Icon>logout</Icon>
+            </a>
+          }
+        />
+      </div>
       <Tab tabs={tabs} tabSelected={0} />
     </>
   );
