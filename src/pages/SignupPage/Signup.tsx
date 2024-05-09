@@ -127,6 +127,7 @@ export default function SignupPage() {
               label="Estado"
               value=""
               error={!!errors.state}
+              isSearchable={true}
               caption={errors.state?.message as string}
             />
             <Select
@@ -135,6 +136,7 @@ export default function SignupPage() {
               label="Cidade"
               value=""
               error={!!errors.city}
+              isSearchable={true}
               caption={errors.city?.message as string}
             />
             <hr className="mt-s-400 w-100 bg-neutral-60" />
