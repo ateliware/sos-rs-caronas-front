@@ -49,6 +49,7 @@ describe('User API Caller', () => {
       email: 'user4@ateliware.com',
       password: '!Password11',
       active: true,
+      cpf: '12345678900',
     };
 
     api.post = jest
@@ -67,6 +68,7 @@ describe('User API Caller', () => {
       name: 'user 3',
       email: 'test@test.com',
       active: true,
+      cpf: '12345678900',
     };
 
     api.patch = jest

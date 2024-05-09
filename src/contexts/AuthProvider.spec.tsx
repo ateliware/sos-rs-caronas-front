@@ -18,6 +18,7 @@ jest.mock('@services/api/auth/auth', () => ({
 
 const mockUser: User = {
   id: 'mock id',
+  cpf: '12345678900',
   email: 'john@mail.com',
   name: 'John',
   active: true,
@@ -120,7 +121,7 @@ describe('handleLogin', () => {
       return (
         <>
           <Button onClick={() => setUser(mockUser)}>setUser</Button>
-          <label data-testid="logged-in">{user?.email}</label>
+          <label data-testid="logged-in">{user?.cpf}</label>
         </>
       );
     };
@@ -140,7 +141,7 @@ describe('handleLogin', () => {
 
     await user.click(setUserButton);
 
-    expect(loggedInLabel).toHaveTextContent(mockUser.email);
+    expect(loggedInLabel).toHaveTextContent(mockUser.cpf);
   });
 
   it('logs in properly when api responds with user data', async () => {
@@ -152,11 +153,11 @@ describe('handleLogin', () => {
 
     const LoginStub = () => {
       const { user, loading, login } = useAuthContext();
-      const mockEmail = mockUser.email;
+      const mockCpf = mockUser.cpf;
       const mockPassword = 'Password1';
       return (
         <>
-          <Button onClick={() => login(mockEmail, mockPassword)}>Login</Button>
+          <Button onClick={() => login(mockCpf, mockPassword)}>Login</Button>
           <>{!loading && <label data-testid="logged-in">{user?.name}</label>}</>
         </>
       );
@@ -189,11 +190,11 @@ describe('handleLogin', () => {
 
     const LoginStub = () => {
       const { user, loading, login } = useAuthContext();
-      const mockEmail = mockUser.email;
+      const mockCpf = mockUser.cpf;
       const mockPassword = 'Password1';
       return (
         <>
-          <Button onClick={() => login(mockEmail, mockPassword)}>Login</Button>
+          <Button onClick={() => login(mockCpf, mockPassword)}>Login</Button>
           <>{!loading && <label data-testid="logged-in">{user?.name}</label>}</>
         </>
       );
