@@ -18,7 +18,7 @@ export default function PageHeader(props: Props) {
   }
 
   return (
-    <div className="d-flex justify-between">
+    <div className="d-flex justify-between align-items-center">
       <div
         className={className.join(' ')}
         onClick={() => {
