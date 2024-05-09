@@ -1,4 +1,5 @@
 import { Icon } from '../Icon';
+import { useNavigate } from 'react-router-dom';
 
 interface Props {
   items?: Item[];
@@ -8,15 +9,19 @@ interface Item {
   title: string;
   description: string;
   icon?: string;
+  route?: string;
 }
 
 export default function ItemList(props: Props) {
+  let navigate = useNavigate();
+
   return (
     <>
       {props.items?.map((item, index: number) => (
         <div
-          className="box-shadow-medium d-flex align-items-center justify-center p-s-200"
+          className="box-shadow-medium d-flex p-s-200"
           key={index}
+          onClick={() => item.route && navigate(item.route)}
         >
           <div className="col-5 p-s-100">
             {item.icon && <Icon className="mr-s-100">{item.icon}</Icon>}

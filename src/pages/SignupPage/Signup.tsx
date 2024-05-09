@@ -38,7 +38,10 @@ export default function SignupPage() {
   return (
     <div className="bg-neutral-95">
       <PageHeader title="Cadastro" backButton={true}></PageHeader>
-      <div className="d-flex justify-center" style={{ height: '100vh' }}>
+      <div
+        className="d-flex justify-center p-s-300"
+        style={{ height: '100vh' }}
+      >
         <div className="d-flex justify-center w-75">
           <form
             autoComplete="off"

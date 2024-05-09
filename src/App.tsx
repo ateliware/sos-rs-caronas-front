@@ -16,6 +16,7 @@ import {
   NotFoundPage,
   RecoverPasswordPage,
   ResetPasswordPage,
+  RideOfferPage,
   SignupPage,
   UserPage,
 } from '@pages';
@@ -69,11 +70,12 @@ function App() {
                 <Route path="email_sent" element={<EmailSentPage />} />
                 <Route path="about" element={<>Example about page</>} />
                 <Route path="*" element={<NotFoundPage />} />
+                <Route path="home" element={<HomePage />} />
+                <Route path="ride_offer" element={<RideOfferPage />} />
               </Route>
 
               <Route path="" element={<Authenticated />}>
                 <Route path="/me" element={<MePage />} />
-                <Route path="home" element={<HomePage />} />
                 <Route path="/users" element={<UserPage />} />
                 <Route path="dashboard" element={<>Dashboard Content</>} />
                 <Route path="protected" element={<>Example protected page</>} />

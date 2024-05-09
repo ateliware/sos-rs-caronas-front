@@ -15,6 +15,7 @@ export default function HomePage() {
                 description:
                   'Cadastre um veículo, agende uma viagem e convide passageiros.',
                 icon: 'directions_car',
+                route: '/ride_offer',
               },
               {
                 title: 'Candidatar-se como voluntário',
