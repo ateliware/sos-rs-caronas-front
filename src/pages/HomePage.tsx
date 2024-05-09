@@ -1,5 +1,6 @@
 import '@styles/index.scss';
 import '../App.css';
+import logo from '@assets/logo-small.svg';
 
 import { Icon, Item, ItemList, PageHeader, Tab } from '@components';
 import { useAuthContext } from '@contexts/AuthProvider';
@@ -48,7 +49,7 @@ function HomePage() {
     <>
       <div className="p-s-300 align-items-center">
         <PageHeader
-          title="CaronaSOS"
+          logo={logo}
           actions={
             <a onClick={() => logout()}>
               <Icon>logout</Icon>
