@@ -121,7 +121,7 @@ describe('handleLogin', () => {
       return (
         <>
           <Button onClick={() => setUser(mockUser)}>setUser</Button>
-          <label data-testid="logged-in">{user?.email}</label>
+          <label data-testid="logged-in">{user?.cpf}</label>
         </>
       );
     };
