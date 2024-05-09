@@ -5,8 +5,8 @@ export const setAuthorization = (token: string | null) => {
   api.defaults.headers.common.Authorization = authorization;
 };
 
-export const login = async (email: string, password: string) => {
-  return api.post('/login', { email, password });
+export const login = async (cpf: string, password: string) => {
+  return api.post('/token/', { cpf, password });
 };
 
 export const sendEmailRecover = async (email: string) => {

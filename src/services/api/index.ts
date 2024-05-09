@@ -25,9 +25,10 @@ export type ErrorResponse = {
 };
 
 export const api = axios.create({
-  baseURL: process.env.REACT_APP_BASE_URL,
+  baseURL: `${process.env.REACT_APP_BASE_URL}/api/v1`,
   headers: {
     'Content-Type': 'application/json',
+    'Access-Control-Allow-Origin': '*',
   },
 });
 

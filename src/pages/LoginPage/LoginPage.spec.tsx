@@ -10,6 +10,7 @@ import LoginPage from './LoginPage';
 
 const contextValues: AuthContext.TAuthContext = {
   user: null,
+  token: null,
   setUser: jest.fn(),
   loading: false,
   login: jest.fn().mockResolvedValue({} as ApiResponse),
