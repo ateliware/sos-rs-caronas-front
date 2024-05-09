@@ -14,7 +14,7 @@ export function Item(props: ItemProps) {
 
   return (
     <div
-      className="box-shadow-medium d-flex p-s-200"
+      className={`box-shadow-medium d-flex p-s-200 ${props.route && 'pointer'}`}
       onClick={() => props.route && navigate(props.route)}
     >
       <div className="col-5 p-s-100">

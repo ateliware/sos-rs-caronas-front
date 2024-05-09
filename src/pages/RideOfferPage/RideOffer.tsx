@@ -41,7 +41,6 @@ export default function RideOfferPage() {
               title={'Modelo Veículo'}
               description={'Marca / Placa'}
               icon={'directions_car'}
-              route={'/volunteer'}
             />
           </>,
         ]}
@@ -62,6 +61,7 @@ export default function RideOfferPage() {
               label="Origem"
               value=""
               error={!!errors.origin}
+              isSearchable={true}
               caption={errors.origin?.message as string}
             />
             <Select
@@ -70,21 +70,14 @@ export default function RideOfferPage() {
               label="Destino"
               value=""
               error={!!errors.destination}
+              isSearchable={true}
               caption={errors.destination?.message as string}
             />
             <Input
               className="mb-s-200"
               form={register('meetingPoint', { required: 'Obrigatório' })}
               label="Ponto de encontro"
-              type="date"
-              error={!!errors.meetingPoint}
-              caption={errors.meetingPoint?.message as string}
-            />
-            <Input
-              className="mb-s-200"
-              form={register('meetingPoint', { required: 'Obrigatório' })}
-              label="Ponto de encontro"
-              type="date"
+              type="text"
               error={!!errors.meetingPoint}
               caption={errors.meetingPoint?.message as string}
             />
