@@ -29,6 +29,8 @@ export default function SignupPage() {
     phoneNumber: string;
     state: string;
     city: string;
+    emergencyContactName: string;
+    emergencyContactPhone: string;
   }) => {
     login(data.cpf.toLowerCase(), data.password).catch(
       handleErrorForm(setError)
@@ -50,7 +52,7 @@ export default function SignupPage() {
           >
             <FileUpload label="Foto do Perfil" uploadPreview={true} />
             <Input
-              className="mb-s-200 mt-s-200"
+              className="mb-s-100 mt-s-200"
               form={register('fullName', { required: 'Obrigatório' })}
               label="Nome Completo"
               placeholder="Nome completo"
@@ -58,7 +60,7 @@ export default function SignupPage() {
               caption={errors.fullName?.message as string}
             />
             <Input
-              className="mb-s-200"
+              className="mb-s-100"
               form={register('birthDate', { required: 'Obrigatório' })}
               label="Data de Nascimento"
               type="date"
@@ -66,7 +68,7 @@ export default function SignupPage() {
               caption={errors.birthDate?.message as string}
             />
             <Input
-              className="mb-s-200"
+              className="mb-s-100"
               form={register('cpf', {
                 required: 'Obrigatório',
                 pattern: {
@@ -80,7 +82,7 @@ export default function SignupPage() {
               caption={errors.cpf?.message as string}
             />
             <Input
-              className="mb-s-200"
+              className="mb-s-100"
               form={register('phoneNumber', {
                 required: 'Obrigatório',
                 pattern: {
@@ -93,8 +95,31 @@ export default function SignupPage() {
               error={!!errors.phoneNumber}
               caption={errors.phoneNumber?.message as string}
             />
+            <Input
+              className="mb-s-100"
+              form={register('emergencyContactName', {
+                required: 'Obrigatório',
+              })}
+              label="Nome do contato emergencial"
+              error={!!errors.emergencyContactName}
+              caption={errors.emergencyContactName?.message as string}
+            />
+            <Input
+              className="mb-s-100"
+              form={register('emergencyContactNumber', {
+                required: 'Obrigatório',
+                pattern: {
+                  value: /^\d{10,11}$/,
+                  message: 'Número de telefone inválido',
+                },
+              })}
+              label="Telefone contato emergencial"
+              placeholder="Apenas números"
+              error={!!errors.emergencyContactNumber}
+              caption={errors.emergencyContactNumber?.message as string}
+            />
             <Select
-              className="mb-s-200"
+              className="mb-s-100"
               form={register('state', { required: 'Obrigatório' })}
               label="Estado"
               value=""
@@ -102,7 +127,7 @@ export default function SignupPage() {
               caption={errors.state?.message as string}
             />
             <Select
-              className="mb-s-200"
+              className="mb-s-100"
               form={register('city', { required: 'Obrigatório' })}
               label="Cidade"
               value=""
@@ -112,7 +137,7 @@ export default function SignupPage() {
             <Button
               type="submit"
               isLoading={isLoadingRequest}
-              className="!w-100 mb-s-100"
+              className="!w-100 mb-s-200"
               alignText="center"
             >
               Cadastrar

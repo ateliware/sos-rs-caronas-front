@@ -50,7 +50,7 @@ export default function RideOfferPage() {
         <div className="d-flex justify-center w-75">
           <form
             autoComplete="off"
-            className="w-100"
+            className="form-max-height w-100"
             onSubmit={handleSubmit(onSubmit)}
           >
             <Select
