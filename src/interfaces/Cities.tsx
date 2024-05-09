@@ -10,3 +10,10 @@ export type City = {
   isActive: boolean;
   state: State;
 };
+
+export type RemoteCity = {
+  id: number;
+  name: string;
+  is_active: boolean;
+  state: State;
+};
