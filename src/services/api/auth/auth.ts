@@ -6,7 +6,7 @@ export const setAuthorization = (token: string | null) => {
 };
 
 export const login = async (cpf: string, password: string) => {
-  return api.post('/token', { cpf, password });
+  return api.post('/token/', { cpf, password });
 };
 
 export const sendEmailRecover = async (email: string) => {

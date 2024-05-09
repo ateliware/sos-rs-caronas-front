@@ -2,13 +2,13 @@ import { AuthProvider, useAuthContext } from './contexts/AuthProvider';
 import {
   BrowserRouter,
   Navigate,
+  Outlet,
   Route,
   Routes,
   useLocation,
 } from 'react-router-dom';
 
 import {
-  DefaultPage,
   EmailSentPage,
   HomePage,
   LoginPage,
@@ -27,15 +27,15 @@ import { VehicleFormPage } from '@pages/Vehicle';
 
 function Authenticated() {
   const location = useLocation();
-  const { user, loading } = useAuthContext();
+  const { token, loading } = useAuthContext();
 
   if (loading) {
     return <>Loading, please wait...</>;
   }
 
-  const isAuthenticated = !!user;
+  const isAuthenticated = !!token;
   return isAuthenticated ? (
-    <DefaultPage />
+    <Outlet />
   ) : (
     <Navigate to="/login" replace state={{ from: location }} />
   );
@@ -73,24 +73,16 @@ function App() {
                     <Route path="email_sent" element={<EmailSentPage />} />
                     <Route path="about" element={<>Example about page</>} />
 
-                    <Route path="vehicle/add" element={<VehicleFormPage />} />
                     <Route path="*" element={<NotFoundPage />} />
-                    <Route path="home" element={<HomePage />} />
-                    <Route path="ride_offer" element={<RideOfferPage />} />
                   </Route>
 
                   <Route path="" element={<Authenticated />}>
                     <Route path="/me" element={<MePage />} />
                     <Route path="/users" element={<UserPage />} />
-                    <Route path="dashboard" element={<>Dashboard Content</>} />
-                    <Route
-                      path="protected"
-                      element={<>Example protected page</>}
-                    />
-                    <Route
-                      path="protected2"
-                      element={<>Example protected page 2</>}
-                    />
+
+                    <Route path="home" element={<HomePage />} />
+                    <Route path="ride_offer" element={<RideOfferPage />} />
+                    <Route path="vehicle/add" element={<VehicleFormPage />} />
                   </Route>
                 </Routes>
               </div>

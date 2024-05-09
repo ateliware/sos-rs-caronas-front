@@ -14,6 +14,7 @@ import { login, sendEmailRecover, setAuthorization } from '@services/api/auth';
 
 export type TAuthContext = {
   user: User | null;
+  token: string | null;
   setUser: (user: User | null) => void;
   loading: boolean;
   isLoadingRequest?: boolean;
@@ -39,16 +40,13 @@ export function AuthProvider({ children }: PropsWithChildren) {
     setIsLoadingRequest(true);
     try {
       const { data } = await login(cpf, password);
-      console.log(data);
-      const { user, token } = data;
+      const { access } = data;
 
-      if (user) {
-        setAuthorization(token);
-        handleSetUser(user);
-        localStorage.setItem(tokenLocalStorageKey, token);
+      setAuthorization(access);
+      handleSetUser(null);
+      localStorage.setItem(tokenLocalStorageKey, access);
 
-        navigate(location.state?.from?.pathname || '/');
-      }
+      navigate(location.state?.from?.pathname || '/home');
       setIsLoadingRequest(false);
     } catch (error) {
       setIsLoadingRequest(false);
@@ -96,8 +94,10 @@ export function AuthProvider({ children }: PropsWithChildren) {
     localStorage.setItem(userLocalStorageKey, JSON.stringify(user));
   };
 
+  const token = localStorage.getItem(tokenLocalStorageKey);
   const contextValue = {
     user,
+    token,
     setUser: handleSetUser,
     loading,
     isLoadingRequest,
