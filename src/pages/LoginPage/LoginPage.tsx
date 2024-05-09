@@ -29,7 +29,7 @@ export default function LoginPage() {
   }) as SubmitHandler<FieldValues>;
 
   return (
-    <div className="bg-neutral-95 row justify-center">
+    <div className="row justify-center">
       <div className="col-sm-12 col-md-6">
         <div className="d-flex justify-center">
           <div className="d-flex justify-center background-login-page">
