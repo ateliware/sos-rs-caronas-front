@@ -134,7 +134,7 @@ export default function VehicleFormPage() {
                   alignText="center"
                   size="small"
                 >
-                  Continuar
+                  Confirmar
                 </Button>
               </div>
             </div>
