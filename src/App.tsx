@@ -62,6 +62,7 @@ function App() {
                 <Route path="" element={<LoginPage />} />
                 <Route path="signup" element={<SignupPage />} />
                 <Route path="login" element={<LoginPage />} />
+                <Route path="home" element={<HomePage />} />
                 <Route path="recover_password">
                   <Route path="" element={<RecoverPasswordPage />} />
                   <Route path=":token" element={<ResetPasswordPage />} />
@@ -74,7 +75,6 @@ function App() {
               <Route path="" element={<Authenticated />}>
                 <Route path="/me" element={<MePage />} />
                 <Route path="/users" element={<UserPage />} />
-                <Route path="/home" element={<HomePage />} />
                 <Route path="dashboard" element={<>Dashboard Content</>} />
                 <Route path="protected" element={<>Example protected page</>} />
                 <Route
