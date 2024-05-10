@@ -1,22 +1,17 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
 
-import { Button, FileUpload, Input, PageHeader } from '@components';
+import { toast } from 'react-toastify';
 
-type VehicleFormParams = {
-  cnh: string;
-  brand: string;
-  model: string;
-  color: string;
-  cnhPhoto: File;
-  emergencyNome: string;
-  emergencyPhone: string;
-};
+import { Button, FileUpload, Input, PageHeader } from '@components';
+import { VehicleFormParams } from 'interfaces/Vehicles';
+import VehiclesAPICaller from '@services/api/vehicles';
 
 export default function VehicleFormPage() {
-  const [file, setFile] = useState<File>();
-  const [fileError, setFileError] = useState<string>('');
+  const [platePicture, setPlatePicture] = useState<File>();
+  const [vehiclePicture, setvehiclePicture] = useState<File>();
+  const [cnhPicture, setCnhPicture] = useState<File>();
 
   const {
     register,
@@ -25,14 +20,34 @@ export default function VehicleFormPage() {
   } = useForm();
   const navigate = useNavigate();
 
+  useEffect(() => {
+    VehiclesAPICaller.loadVehicles().then((vehicles) => {
+      if (vehicles.length) {
+        navigate('/ride_offer');
+      }
+    });
+  }, [navigate]);
+
   const onSubmit = async (data: VehicleFormParams) => {
-    if (!file) {
-      setFileError('Anexe uma foto da CNH');
+    if (!platePicture || !vehiclePicture || !cnhPicture) {
+      toast.error('Por favor, anexe as fotos necessárias!');
       return;
     }
 
-    data = { ...data, cnhPhoto: file };
-    console.log(data);
+    VehiclesAPICaller.registerVehicle({
+      ...data,
+      platePicture,
+      vehiclePicture,
+      cnhPicture,
+      isVerified: false,
+    })
+      .then(() => {
+        toast.success('Veículo cadastrado com sucesso!');
+        navigate('/ride_offer');
+      })
+      .catch(() => {
+        toast.error('Erro ao cadastrar veículo!');
+      });
   };
 
   return (
@@ -65,14 +80,18 @@ export default function VehicleFormPage() {
               caption={errors.cnh?.message as string}
               mask="onlyNumbers"
             />
+
             <Input
               className="mb-s-200 mt-s-200"
-              form={register('brand', { required: 'Obrigatório' })}
-              label="Marca do carro"
-              placeholder="Marca do carro"
-              error={!!errors.brand}
-              caption={errors.brand?.message as string}
+              form={register('plate', {
+                required: 'Obrigatório',
+              })}
+              label="Placa do veículo"
+              placeholder="Placa do veículo"
+              error={!!errors.plate}
+              caption={errors.plate?.message as string}
             />
+
             <Input
               className="mb-s-200 mt-s-200"
               form={register('model', { required: 'Obrigatório' })}
@@ -81,6 +100,7 @@ export default function VehicleFormPage() {
               error={!!errors.model}
               caption={errors.model?.message as string}
             />
+
             <Input
               className="mb-s-200 mt-s-200"
               form={register('color', { required: 'Obrigatório' })}
@@ -91,24 +111,48 @@ export default function VehicleFormPage() {
             />
 
             <FileUpload
-              label="Anexar foto da CNH"
+              label="Anexar foto da Placa do Veículo"
               uploadPreview={true}
               accept="image/*"
               multiple={false}
               maxSizeInBytes={2097152}
               onChange={([file]) => {
                 if (file) {
-                  setFileError('');
-                  setFile(file);
+                  setPlatePicture(file);
                 }
               }}
             />
 
-            {fileError && (
-              <p className="text-left text-negative pt-s-100 font-s-100">
-                {fileError}
-              </p>
-            )}
+            <div className="mb-s-200 mt-s-200">
+              <FileUpload
+                label="Anexar foto do Veículo"
+                uploadPreview={true}
+                accept="image/*"
+                multiple={false}
+                maxSizeInBytes={2097152}
+                onChange={([file]) => {
+                  if (file) {
+                    setvehiclePicture(file);
+                  }
+                }}
+              />
+            </div>
+
+            <div className="mb-s-200 mt-s-200">
+              <FileUpload
+                className="mb-s-200 mt-s-200"
+                label="Anexar foto da CNH"
+                uploadPreview={true}
+                accept="image/*"
+                multiple={false}
+                maxSizeInBytes={2097152}
+                onChange={([file]) => {
+                  if (file) {
+                    setCnhPicture(file);
+                  }
+                }}
+              />
+            </div>
 
             <hr className="mt-s-400 w-100 bg-neutral-60" />
 
@@ -134,7 +178,7 @@ export default function VehicleFormPage() {
                   alignText="center"
                   size="small"
                 >
-                  Confirmar
+                  Cadastrar
                 </Button>
               </div>
             </div>
