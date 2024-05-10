@@ -89,20 +89,16 @@ export default function SignupPage() {
     if (step === 2) {
       console.log(personData.phone);
       PersonAPICaller.sendCode(personData.phone).then((data) => {
-        setPersonData({
-          ...personData,
-          validation_uuid: data.validationUuid,
-        });
         setValidationUuid(data.validationUuid);
       });
     }
-  }, [personData, personData.phone, step]);
+  }, [personData.phone, step]);
 
   const onConfirmCode = ((data: { validationCode: string }) => {
     PersonAPICaller.checkCode(
       personData.phone,
-      validationUuid,
-      data.validationCode
+      data.validationCode,
+      validationUuid
     ).then(() => {
       setStep(3);
     });
@@ -270,7 +266,11 @@ export default function SignupPage() {
                       alignText="center"
                       size="small"
                       design="transparent"
-                      onClick={() => setStep(1)}
+                      onClick={() => {
+                        setValidationUuid('');
+                        setValue('validationCode', '');
+                        setStep(1);
+                      }}
                     >
                       Voltar
                     </Button>
