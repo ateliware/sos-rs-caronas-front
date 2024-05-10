@@ -17,7 +17,7 @@ export default class CitiesAPICaller {
     const city = await retrieve<RemoteCity>(id);
 
     return {
-      ...city,
+      ...city.data,
       isActive: city.data.is_active,
     };
   };
