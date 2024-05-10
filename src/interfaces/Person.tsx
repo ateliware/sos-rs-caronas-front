@@ -24,4 +24,5 @@ export type RemotePerson = {
   avatar: string;
   city_id: number;
   lgpd_acceptance: boolean;
+  validation_uuid?: string;
 };
