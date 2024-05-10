@@ -32,12 +32,13 @@ export default function RideOfferPage() {
   }, [user, navigate]);
 
   useEffect(() => {
-    VehiclesAPICaller.loadVehicles().then((vehicles) => setVehicles(vehicles));
-
-    if (!vehicles.length) {
-      navigate('/vehicle/add');
-    }
-  }, [navigate, vehicles.length]);
+    VehiclesAPICaller.loadVehicles().then((vehicles) => {
+      setVehicles(vehicles);
+      if (!vehicles.length) {
+        navigate('/vehicle/add');
+      }
+    });
+  }, [navigate]);
 
   const onSubmit = ((data: {
     origin: string;
@@ -59,8 +60,8 @@ export default function RideOfferPage() {
           <>
             <Item
               key="volunteer"
-              title={'Modelo Veículo'}
-              description={'Marca / Placa'}
+              title={`${vehicles[0]?.model} - ${vehicles[0]?.color}`}
+              description={`${vehicles[0]?.plate}`}
               icon={'directions_car'}
             />
           </>,
