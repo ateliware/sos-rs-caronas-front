@@ -2,7 +2,15 @@ import { useEffect } from 'react';
 import { FieldValues, SubmitHandler, useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
 
-import { Button, Input, Item, ItemList, PageHeader, Select } from '@components';
+import {
+  Button,
+  Input,
+  InputTextArea,
+  Item,
+  ItemList,
+  PageHeader,
+  Select,
+} from '@components';
 import { useAuthContext } from '@contexts/AuthProvider';
 
 export default function RideOfferPage() {
@@ -25,7 +33,7 @@ export default function RideOfferPage() {
     meetingPoint: string;
     carSpaces: number;
     departureDate: Date;
-    returnDate: string;
+    notes: string;
   }) => {
     console.log('form submit');
   }) as SubmitHandler<FieldValues>;
@@ -95,17 +103,17 @@ export default function RideOfferPage() {
               className="mb-s-200"
               form={register('departureDate', { required: 'Obrigatório' })}
               label="Ida"
-              type="datetime-local"
+              type="date"
               error={!!errors.departureDate}
               caption={errors.departureDate?.message as string}
             />
-            <Input
+            <InputTextArea
               className="mb-s-200"
-              form={register('returnDate', { required: 'Obrigatório' })}
-              label="Volta"
-              type="datetime-local"
-              error={!!errors.returnDate}
-              caption={errors.returnDate?.message as string}
+              form={register('notes', { required: 'Obrigatório' })}
+              label="Notas"
+              placeholder="Informações adicionais da viagem"
+              error={!!errors.notes}
+              caption={errors.notes?.message as string}
             />
 
             <hr className="mt-s-400 w-100 bg-neutral-60" />

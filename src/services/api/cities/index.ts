@@ -9,6 +9,7 @@ export default class CitiesAPICaller {
     return cities.data.map((city) => ({
       ...city,
       isActive: city.is_active,
+      label: `${city.name} - ${city.state.code}`,
     }));
   };
 
