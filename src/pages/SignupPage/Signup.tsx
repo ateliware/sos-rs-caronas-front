@@ -113,7 +113,6 @@ export default function SignupPage() {
 
   useEffect(() => {
     if (step === 2) {
-      console.log(personData.phone);
       PersonAPICaller.sendCode(personData.phone).then((data) => {
         setValidationUuid(data.validationUuid);
         setPersonData((prevState) => ({
@@ -295,6 +294,25 @@ export default function SignupPage() {
                   error={!!errors.validationCode}
                   caption={errors.validationCode?.message as string}
                 />
+
+                <Button
+                  type="button"
+                  className="!w-100 mb-s-100"
+                  alignText="center"
+                  size="small"
+                  design="transparent"
+                  onClick={() => {
+                    PersonAPICaller.sendCode(personData.phone).then((data) => {
+                      setValidationUuid(data.validationUuid);
+                      setPersonData((prevState) => ({
+                        ...prevState,
+                        validation_uuid: data.validationUuid,
+                      }));
+                    });
+                  }}
+                >
+                  Reenviar código
+                </Button>
 
                 <hr className="mt-s-400 w-100 bg-neutral-60" />
 
