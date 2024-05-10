@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { FieldValues, SubmitHandler, useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
 import {
@@ -10,10 +10,14 @@ import {
   PasswordInput,
   Select,
 } from '@components';
+
+import { City } from 'interfaces/Cities';
 import { useAuthContext } from '@contexts/AuthProvider';
 import { handleErrorForm } from '@services/api';
 import { RemotePerson } from 'interfaces/Person';
 import PersonAPICaller from '@services/api/person';
+
+import CitiesAPICaller from '@services/api/cities';
 
 export default function SignupPage() {
   const {
@@ -21,15 +25,28 @@ export default function SignupPage() {
     register,
     handleSubmit,
     watch,
+    setValue,
     formState: { errors, isSubmitting },
   } = useForm();
-  const { login, user, isLoadingRequest } = useAuthContext();
+  const { user } = useAuthContext();
   const navigate = useNavigate();
+
+  const [cities, setCities] = useState<City[]>([]);
 
   useEffect(() => {
     if (!!user) navigate('/home');
     return;
   }, [user, navigate]);
+
+  useEffect(() => {
+    CitiesAPICaller.loadCities()
+      .then((data) => {
+        setCities(data);
+      })
+      .catch(() => {
+        handleErrorForm(setError);
+      });
+  }, [setError]);
 
   const onSubmit = ((data: {
     cpf: string;
@@ -41,7 +58,7 @@ export default function SignupPage() {
     emergencyContact: string;
     birthDate: string;
     avatar: string;
-    city: string;
+    city: { value: number; label: string };
     lgpdAcceptance: boolean;
   }) => {
     try {
@@ -55,7 +72,7 @@ export default function SignupPage() {
         emergency_contact: data.emergencyContact,
         birth_date: data.birthDate,
         avatar: data.avatar,
-        city_id: 1,
+        city_id: data.city.value,
         lgpd_acceptance: data.lgpdAcceptance,
       };
       console.log(remotePersonData);
@@ -156,12 +173,20 @@ export default function SignupPage() {
             />
             <Select
               className="mb-s-100"
-              form={register('city')}
+              form={register('city', { required: 'Obrigatório' })}
               label="Cidade"
+              placeholder="Selecione a cidade"
               value={watch('city')}
               error={!!errors.city}
-              // isSearchable={true}
-              options={[{ label: 'Cidade', value: '1' }]}
+              options={
+                cities.map((city) => ({
+                  value: city.id,
+                  label: city.label,
+                })) as any
+              }
+              onSelect={(value: string | undefined) => {
+                setValue('city', value);
+              }}
               caption={errors.city?.message as string}
             />
             <PasswordInput

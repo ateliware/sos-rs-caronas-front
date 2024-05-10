@@ -9,6 +9,7 @@ export type City = {
   name: string;
   isActive: boolean;
   state: State;
+  label?: string;
 };
 
 export type RemoteCity = {
