@@ -270,7 +270,7 @@ export default function SignupPage() {
                       alignText="center"
                       size="small"
                     >
-                      Validar
+                      Continuar
                     </Button>
                   </div>
                 </div>
