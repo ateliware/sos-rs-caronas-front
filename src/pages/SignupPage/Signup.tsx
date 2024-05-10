@@ -6,6 +6,7 @@ import {
   Checkbox,
   FileUpload,
   Input,
+  Modal,
   PageHeader,
   PasswordInput,
   Select,
@@ -27,10 +28,12 @@ export default function SignupPage() {
     handleSubmit,
     watch,
     setValue,
-    formState: { errors, isSubmitting },
+    getValues,
+    formState: { errors, isSubmitting, isValid },
   } = useForm();
   const { user } = useAuthContext();
   const navigate = useNavigate();
+  const [isOpenConfirmationPhone, toggleConfirmationPhone] = useState(false);
 
   const [cities, setCities] = useState<City[]>([]);
 
@@ -76,7 +79,6 @@ export default function SignupPage() {
         city_id: data.city.value,
         lgpd_acceptance: data.lgpdAcceptance,
       };
-      console.log(remotePersonData);
 
       PersonAPICaller.register(remotePersonData)
         .then((data) => console.log(data))
@@ -230,16 +232,69 @@ export default function SignupPage() {
 
               <div className="col-sm-5">
                 <Button
-                  type="submit"
+                  // type="submit"
                   isLoading={isSubmitting}
                   className="!w-100 mb-s-100"
                   alignText="center"
                   size="small"
+                  onClick={() => {
+                    if (isValid)
+                      toggleConfirmationPhone(!isOpenConfirmationPhone);
+                  }}
                 >
                   Confirmar
                 </Button>
               </div>
             </div>
+
+            <Modal
+              isOpen={isOpenConfirmationPhone}
+              onClickAway={() =>
+                toggleConfirmationPhone(!isOpenConfirmationPhone)
+              }
+            >
+              <p>
+                Digite o código de verificação enviado para
+                {` ${getValues('phoneNumber')} `}
+                para confirmar a sua conta.
+              </p>
+
+              <Input
+                className="mb-s-300 mt-s-300"
+                label="Código de confirmação"
+                placeholder="Apenas números"
+              />
+
+              <hr className="mt-s-400 w-100 bg-neutral-60" />
+
+              <div className="d-flex justify-between mt-s-400">
+                <div className="col-sm-5">
+                  <Button
+                    type="button"
+                    className="!w-100 mb-s-100"
+                    alignText="center"
+                    size="small"
+                    design="transparent"
+                    onClick={() =>
+                      toggleConfirmationPhone(!isOpenConfirmationPhone)
+                    }
+                  >
+                    Voltar
+                  </Button>
+                </div>
+
+                <div className="col-sm-5">
+                  <Button
+                    isLoading={isSubmitting}
+                    className="!w-100 mb-s-100"
+                    alignText="center"
+                    size="small"
+                  >
+                    Confirmar
+                  </Button>
+                </div>
+              </div>
+            </Modal>
           </form>
         </div>
       </div>
