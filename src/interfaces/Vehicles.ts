@@ -17,3 +17,14 @@ export type RemoteVehicle = {
   vehicle_picture: string;
   is_verified: boolean;
 };
+
+export type VehicleFormParams = {
+  cnh: string;
+  model: string;
+  color: string;
+  plate: string;
+  platePicture: File;
+  vehiclePicture: File;
+  cnhPicture: File;
+  isVerified: boolean;
+};
