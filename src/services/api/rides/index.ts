@@ -72,9 +72,14 @@ export default class RidesAPICaller {
 
   static registerRide = async (data: RideFormParams) => {
     await create<RemoteRideFormParams>({
-      ...data,
+      date: data.date,
       work_shift: data.workShift,
+      origin: data.origin,
+      destination: data.destination,
+      vehicle: data.vehicle,
       quantity_of_passengers: data.quantityOfPassengers,
+      status: data.status,
+      notes: data.notes,
     });
   };
 }
