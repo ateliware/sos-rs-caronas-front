@@ -14,15 +14,15 @@ export type Person = {
 
 export type RemotePerson = {
   cpf: string;
-  password: string;
-  password_confirm: string;
+  password?: string;
+  password_confirm?: string;
   name: string;
   phone: string;
   emergency_phone: string;
   emergency_contact: string;
   birth_date: string;
-  avatar: string;
+  avatar?: string;
   city_id: number;
-  lgpd_acceptance: boolean;
+  lgpd_acceptance?: boolean;
   validation_uuid?: string;
 };

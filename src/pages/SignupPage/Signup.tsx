@@ -77,26 +77,29 @@ export default function SignupPage() {
       return;
     }
 
-    setPersonData({
-      cpf: data.cpf,
-      password: data.password,
-      password_confirm: data.passwordConfirm,
-      name: data.name,
-      phone: data.phoneNumber,
-      emergency_phone: data.emergencyPhone,
-      emergency_contact: data.emergencyContact,
-      birth_date: data.birthDate,
-      avatar: '',
-      city_id: data.city.value,
-      lgpd_acceptance: data.lgpdAcceptance,
-    });
+    if (step === 1) {
+      setPersonData({
+        cpf: data.cpf,
+        name: data.name,
+        phone: data.phoneNumber,
+        emergency_phone: data.emergencyPhone,
+        emergency_contact: data.emergencyContact,
+        birth_date: data.birthDate,
+        city_id: data.city.value,
+      });
 
-    convertToBase64(avatar).then((avatarBase64) => {
-      setPersonData((prevState) => ({ ...prevState, avatar: avatarBase64 }));
-    });
-
-    if (step === 3) {
-      PersonAPICaller.register(personData)
+      convertToBase64(avatar).then((avatarBase64) => {
+        setPersonData((prevState) => ({ ...prevState, avatar: avatarBase64 }));
+      });
+      setStep(2);
+    } else if (step === 3) {
+      PersonAPICaller.register({
+        ...personData,
+        validation_uuid: validationUuid,
+        password: data.password,
+        password_confirm: data.passwordConfirm,
+        lgpd_acceptance: data.lgpdAcceptance,
+      })
         .then(() => {
           toast.success('Cadastro realizado com sucesso');
           navigate('/login');
@@ -107,8 +110,6 @@ export default function SignupPage() {
 
       return;
     }
-
-    if (step === 1) setStep(2);
   }) as SubmitHandler<FieldValues>;
 
   useEffect(() => {
