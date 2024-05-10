@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
 
@@ -19,6 +19,14 @@ export default function VehicleFormPage() {
     formState: { errors, isSubmitting },
   } = useForm();
   const navigate = useNavigate();
+
+  useEffect(() => {
+    VehiclesAPICaller.loadVehicles().then((vehicles) => {
+      if (vehicles.length) {
+        navigate('/ride_offer');
+      }
+    });
+  }, [navigate]);
 
   const onSubmit = async (data: VehicleFormParams) => {
     if (!platePicture || !vehiclePicture || !cnhPicture) {
