@@ -1,6 +1,9 @@
 import { useEffect, useState } from 'react';
 import { FieldValues, SubmitHandler, useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
+
+import { toast } from 'react-toastify';
+
 import {
   Button,
   Checkbox,
@@ -39,6 +42,7 @@ export default function SignupPage() {
   const [step, setStep] = useState(1);
   const [cities, setCities] = useState<City[]>([]);
   const [validationUuid, setValidationUuid] = useState('');
+  const [avatar, setAvatar] = useState<File>();
 
   useEffect(() => {
     if (!!user) navigate('/home');
@@ -64,10 +68,14 @@ export default function SignupPage() {
     emergencyPhone: string;
     emergencyContact: string;
     birthDate: string;
-    avatar: string;
     city: { value: number; label: string };
     lgpdAcceptance: boolean;
   }) => {
+    if (!avatar) {
+      toast.error('Selecione uma foto de perfil');
+      return;
+    }
+
     setPersonData({
       cpf: data.cpf,
       password: data.password,
@@ -77,7 +85,7 @@ export default function SignupPage() {
       emergency_phone: data.emergencyPhone,
       emergency_contact: data.emergencyContact,
       birth_date: data.birthDate,
-      avatar: data.avatar,
+      avatar: '',
       city_id: data.city.value,
       lgpd_acceptance: data.lgpdAcceptance,
     });
@@ -122,7 +130,16 @@ export default function SignupPage() {
           >
             {step === 1 && (
               <>
-                <FileUpload label="Foto do Perfil" uploadPreview={true} />
+                <FileUpload
+                  label="Foto do Perfil"
+                  uploadPreview={true}
+                  onChange={([file]) => {
+                    if (file) {
+                      setAvatar(file);
+                    }
+                  }}
+                />
+
                 <Input
                   className="mb-s-100 mt-s-200"
                   form={register('name', { required: 'Obrigatório' })}
