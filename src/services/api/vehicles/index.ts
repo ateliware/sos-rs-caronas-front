@@ -38,10 +38,11 @@ export default class VehiclesAPICaller {
 
     await create<RemoteVehicleFormParams>({
       ...data,
+      cnh_number: data.cnh,
       plate_picture: platePictureBase64,
       vehicle_picture: vehiclePictureBase64,
       cnh_picture: cnhPictureBase64,
-      is_verified: false,
+      is_verified: data.isVerified,
     });
   };
 }

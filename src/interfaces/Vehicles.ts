@@ -30,7 +30,7 @@ export type VehicleFormParams = {
 };
 
 export type RemoteVehicleFormParams = {
-  cnh: string;
+  cnh_number: string;
   model: string;
   color: string;
   plate: string;

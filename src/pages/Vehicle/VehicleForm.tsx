@@ -6,6 +6,7 @@ import { toast } from 'react-toastify';
 
 import { Button, FileUpload, Input, PageHeader } from '@components';
 import { VehicleFormParams } from 'interfaces/Vehicles';
+import VehiclesAPICaller from '@services/api/vehicles';
 
 export default function VehicleFormPage() {
   const [platePicture, setPlatePicture] = useState<File>();
@@ -25,7 +26,20 @@ export default function VehicleFormPage() {
       return;
     }
 
-    console.log(data);
+    VehiclesAPICaller.registerVehicle({
+      ...data,
+      platePicture,
+      vehiclePicture,
+      cnhPicture,
+      isVerified: false,
+    })
+      .then(() => {
+        toast.success('Veículo cadastrado com sucesso!');
+        navigate('/ride_offer');
+      })
+      .catch(() => {
+        toast.error('Erro ao cadastrar veículo!');
+      });
   };
 
   return (
@@ -66,8 +80,8 @@ export default function VehicleFormPage() {
               })}
               label="Placa do veículo"
               placeholder="Placa do veículo"
-              error={!!errors.cnh}
-              caption={errors.cnh?.message as string}
+              error={!!errors.plate}
+              caption={errors.plate?.message as string}
             />
 
             <Input
