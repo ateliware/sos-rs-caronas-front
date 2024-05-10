@@ -18,3 +18,23 @@ export type RemoteCity = {
   is_active: boolean;
   state: State;
 };
+
+export type AffectPlaces = {
+  uuid: string;
+  description: string;
+  address: string;
+  city: City;
+  mainPerson: string;
+  mainContact: string;
+  informations: string;
+};
+
+export type RemoteAffectPlaces = {
+  uuid: string;
+  description: string;
+  address: string;
+  city: City;
+  main_person: string;
+  main_contact: string;
+  informations: string;
+};
