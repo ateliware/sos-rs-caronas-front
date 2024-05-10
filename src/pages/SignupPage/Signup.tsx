@@ -99,7 +99,7 @@ export default function SignupPage() {
       PersonAPICaller.register(personData)
         .then(() => {
           toast.success('Cadastro realizado com sucesso');
-          // navigate('/login');
+          navigate('/login');
         })
         .catch((error) => {
           console.log(error);
