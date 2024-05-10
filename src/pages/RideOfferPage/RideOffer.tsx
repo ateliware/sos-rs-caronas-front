@@ -180,7 +180,7 @@ export default function RideOfferPage() {
             >
               <RadioButton label="Manhã" value="MORNING" />
               <RadioButton label="Tarde" value="AFTERNOON" />
-              <RadioButton label="Ambos" value="-" />
+              <RadioButton label="Ambos" value="ALL_DAY" />
             </RadioForm>
 
             <hr className="mt-s-400 w-100 bg-neutral-60" />
