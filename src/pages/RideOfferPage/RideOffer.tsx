@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { FieldValues, SubmitHandler, useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
 
@@ -12,6 +12,8 @@ import {
   Select,
 } from '@components';
 import { useAuthContext } from '@contexts/AuthProvider';
+import { Vehicle } from 'interfaces/Vehicles';
+import VehiclesAPICaller from '@services/api/vehicles';
 
 export default function RideOfferPage() {
   const {
@@ -19,13 +21,23 @@ export default function RideOfferPage() {
     handleSubmit,
     formState: { errors, isSubmitting },
   } = useForm();
-  const { user, isLoadingRequest } = useAuthContext();
+  const { user } = useAuthContext();
   const navigate = useNavigate();
+
+  const [vehicles, setVehicles] = useState<Vehicle[]>([]);
 
   useEffect(() => {
     if (!!user) navigate('/home');
     return;
   }, [user, navigate]);
+
+  useEffect(() => {
+    VehiclesAPICaller.loadVehicles().then((vehicles) => setVehicles(vehicles));
+
+    if (!vehicles.length) {
+      navigate('/vehicle/add');
+    }
+  }, [navigate, vehicles.length]);
 
   const onSubmit = ((data: {
     origin: string;
@@ -41,6 +53,7 @@ export default function RideOfferPage() {
   return (
     <div className="">
       <PageHeader title="Ofertar carona" backButton={true}></PageHeader>
+
       <ItemList
         items={[
           <>
