@@ -90,6 +90,10 @@ export default function SignupPage() {
       lgpd_acceptance: data.lgpdAcceptance,
     });
 
+    convertToBase64(avatar).then((avatarBase64) => {
+      setPersonData((prevState) => ({ ...prevState, avatar: avatarBase64 }));
+    });
+
     setStep(2);
   }) as SubmitHandler<FieldValues>;
 
@@ -111,6 +115,15 @@ export default function SignupPage() {
       setStep(3);
     });
   }) as SubmitHandler<FieldValues>;
+
+  function convertToBase64(file: File): Promise<string> {
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.onload = () => resolve(reader.result as string);
+      reader.onerror = (error) => reject(error);
+      reader.readAsDataURL(file);
+    });
+  }
 
   return (
     <>
@@ -138,6 +151,7 @@ export default function SignupPage() {
                       setAvatar(file);
                     }
                   }}
+                  accept="image/*"
                 />
 
                 <Input
