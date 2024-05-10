@@ -11,6 +11,7 @@ import {
   Select,
 } from '@components';
 
+import { formCpfPattern } from '@validations/cpf';
 import { City } from 'interfaces/Cities';
 import { useAuthContext } from '@contexts/AuthProvider';
 import { handleErrorForm } from '@services/api';
@@ -124,10 +125,7 @@ export default function SignupPage() {
               className="mb-s-100"
               form={register('cpf', {
                 required: 'Obrigatório',
-                pattern: {
-                  value: /^\d{11}$/,
-                  message: 'CPF inválido',
-                },
+                ...formCpfPattern,
               })}
               label="CPF"
               placeholder="Apenas números"
