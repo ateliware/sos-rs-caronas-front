@@ -23,6 +23,7 @@ import { RemotePerson } from 'interfaces/Person';
 import PersonAPICaller from '@services/api/person';
 
 import CitiesAPICaller from '@services/api/cities';
+import { convertToBase64 } from '@utils/file/file';
 
 export default function SignupPage() {
   const {
@@ -94,7 +95,20 @@ export default function SignupPage() {
       setPersonData((prevState) => ({ ...prevState, avatar: avatarBase64 }));
     });
 
-    setStep(2);
+    if (step === 3) {
+      PersonAPICaller.register(personData)
+        .then(() => {
+          toast.success('Cadastro realizado com sucesso');
+          // navigate('/login');
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+
+      return;
+    }
+
+    if (step === 1) setStep(2);
   }) as SubmitHandler<FieldValues>;
 
   useEffect(() => {
@@ -102,6 +116,10 @@ export default function SignupPage() {
       console.log(personData.phone);
       PersonAPICaller.sendCode(personData.phone).then((data) => {
         setValidationUuid(data.validationUuid);
+        setPersonData((prevState) => ({
+          ...prevState,
+          validation_uuid: data.validationUuid,
+        }));
       });
     }
   }, [personData.phone, step]);
@@ -115,15 +133,6 @@ export default function SignupPage() {
       setStep(3);
     });
   }) as SubmitHandler<FieldValues>;
-
-  function convertToBase64(file: File): Promise<string> {
-    return new Promise((resolve, reject) => {
-      const reader = new FileReader();
-      reader.onload = () => resolve(reader.result as string);
-      reader.onerror = (error) => reject(error);
-      reader.readAsDataURL(file);
-    });
-  }
 
   return (
     <>
@@ -349,6 +358,37 @@ export default function SignupPage() {
                   })}
                   label="Aceito os termos de uso"
                 />
+
+                <hr className="mt-s-400 w-100 bg-neutral-60" />
+
+                <div className="d-flex justify-between mt-s-400">
+                  <div className="col-sm-5">
+                    <Button
+                      type="button"
+                      className="!w-100 mb-s-100"
+                      alignText="center"
+                      size="small"
+                      design="transparent"
+                      onClick={() => {
+                        setStep(2);
+                      }}
+                    >
+                      Voltar
+                    </Button>
+                  </div>
+
+                  <div className="col-sm-5">
+                    <Button
+                      type="submit"
+                      isLoading={isSubmitting}
+                      className="!w-100 mb-s-100"
+                      alignText="center"
+                      size="small"
+                    >
+                      Cadastrar
+                    </Button>
+                  </div>
+                </div>
               </>
             )}
           </form>
