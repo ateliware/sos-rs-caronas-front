@@ -1,4 +1,4 @@
-import { register, sendCode } from './calls';
+import { checkCode, register, sendCode } from './calls';
 import { RemotePerson } from 'interfaces/Person';
 export * from './calls';
 
@@ -15,5 +15,15 @@ export default class PersonAPICaller {
       message: response.data.message,
       validationUuid: response.data.validation_uuid,
     };
+  };
+
+  static checkCode = async (
+    phone: string,
+    code: string,
+    validationUuid: string
+  ) => {
+    const response = await checkCode(phone, code, validationUuid);
+
+    return response.data;
   };
 }
